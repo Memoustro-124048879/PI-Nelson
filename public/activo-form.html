@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGAF-QR | Nuevo Activo</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg>
+            <span>SIGAF-QR</span>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="avatar">CM</div>
+            <div class="user-meta">
+                <h4>Carlos Mendoza</h4>
+                <p>Administrativo</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg> Dashboard</a></li>
+                <li class="nav-item"><a href="activos.html" class="nav-link active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path></svg> Activos</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <header class="page-header" style="display: flex; align-items: flex-start; gap: 2rem;">
+            <a href="activos.html" class="btn-volver">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"></path></svg>
+                Volver
+            </a>
+            <div style="flex: 1;">
+                <h1 id="pageTitle" style="margin-bottom: 0.25rem;">Nuevo Activo</h1>
+                <p>Complete la información del activo fijo</p>
+            </div>
+        </header>
+
+        <form id="assetForm">
+            <!-- Sección de Identificación -->
+            <section class="form-section">
+                <h3>Sección de Identificación</h3>
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Nombre del Activo <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="nombre" placeholder="Ej: Torquímetro Digital SNAP-ON" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría <span>*</span></label>
+                        <div class="input-container">
+                            <select name="categoria_id" required>
+                                <option value="">Seleccione una categoría</option>
+                                <option value="1">Herramientas</option>
+                                <option value="2">Maquinaria</option>
+                                <option value="3">Vehículos</option>
+                                <option value="4">Equipos</option>
+                                <option value="5">Mobiliario</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-2" style="margin-top: 1.5rem;">
+                    <div class="form-group">
+                        <label>Código Interno <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="codigo" placeholder="Ej: TQM-2024-001" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Número de Serie <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="numero_serie" placeholder="Ej: SN-TQ-457821" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-2" style="margin-top: 1.5rem;">
+                    <div class="form-group">
+                        <label>Marca <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="marca" placeholder="Ej: SNAP-ON" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Modelo <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="modelo" placeholder="Ej: ATECH3FR250B" required>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Financiera -->
+            <section class="form-section">
+                <h3>Sección Financiera</h3>
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Fecha de Adquisición <span>*</span></label>
+                        <div class="input-container">
+                            <input type="date" name="fecha_adquisicion" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Costo de Adquisición (MXN) <span>*</span></label>
+                        <div class="input-container">
+                            <input type="number" name="costo" placeholder="0" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-2" style="margin-top: 1.5rem;">
+                    <div class="form-group">
+                        <label>Proveedor <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="proveedor" placeholder="Ej: Industrial Tools SA" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Vida Útil Estimada (años) <span>*</span></label>
+                        <div class="input-container">
+                            <input type="number" name="vida_util" placeholder="10" required>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Operativa -->
+            <section class="form-section">
+                <h3>Sección Operativa</h3>
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Ubicación Actual <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="ubicacion" placeholder="Ej: Planta Principal - Área de Ensamble" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Departamento <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="departamento" placeholder="Ej: Producción" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-2" style="margin-top: 1.5rem;">
+                    <div class="form-group">
+                        <label>Responsable Asignado <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="responsable" placeholder="Ej: Miguel Torres" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado <span>*</span></label>
+                        <div class="input-container">
+                            <select name="estado" required>
+                                <option value="Disponible">Disponible</option>
+                                <option value="En Uso">En Uso</option>
+                                <option value="Mantenimiento">Mantenimiento</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <label>Observaciones</label>
+                    <div class="input-container">
+                        <textarea name="observaciones" placeholder="Ingrese cualquier observación relevante sobre el activo..." style="height: 100px; font-family: inherit; resize: none;"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                <button type="button" class="btn-secondary" onclick="history.back()" style="width: auto; padding: 0.75rem 2.5rem; margin-top: 0; background: white; border: 1px solid var(--border-color);">Cancelar</button>
+                <button type="submit" class="btn-create-asset">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    Crear Activo
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Core Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <!-- Page Specific Script -->
+    <script src="js/activo-form.js"></script>
+</body>
+</html>
