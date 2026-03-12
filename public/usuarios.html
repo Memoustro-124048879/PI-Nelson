@@ -86,142 +86,144 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="main-container">
-        <header class="page-header" style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
-            <div>
-                <h1>Gestión de Usuarios</h1>
-                <p>Administre usuarios y visualice los activos asignados a cada empleado</p>
-            </div>
-            <button class="btn-login" style="width: auto; padding: 0.6rem 1.5rem; margin-top: 0; display: flex; align-items: center; gap: 0.5rem; background: #0f172a; color: white; border: none; font-weight: 600; border-radius: 8px; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg>
-                Nuevo Usuario
-            </button>
-        </header>
+    <main class="main-content">
+        <div class="content-wrapper-centered">
+            <header class="page-header" style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+                <div>
+                    <h1>Gestión de Usuarios</h1>
+                    <p>Administre usuarios and visualice los activos asignados a cada empleado</p>
+                </div>
+                <button id="btn-new-user" class="btn-login" style="width: auto; padding: 0.6rem 1.5rem; margin-top: 0; display: flex; align-items: center; gap: 0.5rem; background: #0f172a; color: white; border: none; font-weight: 600; border-radius: 8px; cursor: pointer;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg>
+                    Nuevo Usuario
+                </button>
+            </header>
 
-        <!-- Stats Grid -->
-        <div class="user-stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
-            <div class="user-stat-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">Total Empleados</p>
-                    <h2 style="font-size: 2rem; color: var(--text-main);">7</h2>
+            <!-- Stats Grid -->
+            <div class="user-stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="user-stat-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">Total Empleados</p>
+                        <h2 style="font-size: 2rem; color: var(--text-main);">7</h2>
+                    </div>
+                    <div class="card-icon-box" style="background: #eff6ff; color: #3b82f6; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
                 </div>
-                <div class="card-icon-box" style="background: #eff6ff; color: #3b82f6; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-            </div>
-            
-            <div class="user-stat-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">Con Activos</p>
-                    <h2 style="font-size: 2rem; color: var(--text-main);">7</h2>
+                
+                <div class="user-stat-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">Con Activos</p>
+                        <h2 style="font-size: 2rem; color: var(--text-main);">7</h2>
+                    </div>
+                    <div class="card-icon-box" style="background: #f0fdf4; color: #22c55e; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg></div>
                 </div>
-                <div class="card-icon-box" style="background: #f0fdf4; color: #22c55e; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg></div>
-            </div>
-            
-            <div class="user-stat-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">Departamentos</p>
-                    <h2 style="font-size: 2rem; color: var(--text-main);">6</h2>
+                
+                <div class="user-stat-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">Departamentos</p>
+                        <h2 style="font-size: 2rem; color: var(--text-main);">6</h2>
+                    </div>
+                    <div class="card-icon-box" style="background: #faf5ff; color: #a855f7; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg></div>
                 </div>
-                <div class="card-icon-box" style="background: #faf5ff; color: #a855f7; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg></div>
-            </div>
-            
-            <div class="user-stat-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">Activos Asignados</p>
-                    <h2 style="font-size: 2rem; color: var(--text-main);">4</h2>
+                
+                <div class="user-stat-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500;">Activos Asignados</p>
+                        <h2 style="font-size: 2rem; color: var(--text-main);">4</h2>
+                    </div>
+                    <div class="card-icon-box" style="background: #fff7ed; color: #f97316; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
                 </div>
-                <div class="card-icon-box" style="background: #fff7ed; color: #f97316; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
             </div>
-        </div>
 
-        <div class="search-box" style="margin-bottom: 2rem; background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem 1.25rem; display: flex; align-items: center;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" placeholder="Buscar por nombre, email o departamento..." style="border: none; outline: none; margin-left: 0.75rem; width: 100%; font-size: 1rem; color: var(--text-main);">
-        </div>
+            <div class="search-box" style="margin-bottom: 2rem; background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem 1.25rem; display: flex; align-items: center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" placeholder="Buscar por nombre, email o departamento..." style="border: none; outline: none; margin-left: 0.75rem; width: 100%; font-size: 1rem; color: var(--text-main);">
+            </div>
 
-        <!-- Users List -->
-        <div id="usersList" style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <!-- User MT -->
-            <div class="user-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
-                <div style="display: flex; gap: 1.5rem;">
-                    <div class="user-avatar-large" style="width: 56px; height: 56px; background-color: var(--bg-dark); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 600; flex-shrink: 0;">MT</div>
-                    
-                    <div style="flex-grow: 1;">
-                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                            <h3 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600;">Miguel Torres</h3>
-                            <span class="badge" style="background: #dcfce7; color: #166534; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">Trabajador</span>
-                            <div style="width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%;"></div>
-                        </div>
+            <!-- Users List -->
+            <div id="usersList" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- User MT -->
+                <div class="user-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+                    <div style="display: flex; gap: 1.5rem;">
+                        <div class="user-avatar-large" style="width: 56px; height: 56px; background-color: var(--bg-dark); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 600; flex-shrink: 0;">MT</div>
                         
-                        <div style="display: flex; gap: 1.5rem; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">
-                            <span style="display: flex; align-items: center; gap: 0.4rem;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                                miguel.torres@automotive.com
-                            </span>
-                            <span style="display: flex; align-items: center; gap: 0.4rem;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                                Producción - Línea A
-                            </span>
-                        </div>
-                        
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-                                Activos Asignados (1)
+                        <div style="flex-grow: 1;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                <h3 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600;">Miguel Torres</h3>
+                                <span class="badge" style="background: #dcfce7; color: #166534; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">Trabajador</span>
+                                <div style="width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%;"></div>
                             </div>
                             
-                            <div style="display: inline-flex; overflow: hidden; max-width: 100%;">
-                                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 1rem; min-width: 300px;">
-                                    <div style="background: #dbeafe; color: #2563eb; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-                                    </div>
-                                    <div>
-                                        <h4 style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.1rem;">Torquímetro Digital SNAP-ON</h4>
-                                        <p style="font-size: 0.75rem; color: var(--text-muted);">TQM-2024-001</p>
+                            <div style="display: flex; gap: 1.5rem; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">
+                                <span style="display: flex; align-items: center; gap: 0.4rem;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                    miguel.torres@automotive.com
+                                </span>
+                                <span style="display: flex; align-items: center; gap: 0.4rem;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                    Producción - Línea A
+                                </span>
+                            </div>
+                            
+                            <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                                    Activos Asignados (1)
+                                </div>
+                                
+                                <div style="display: inline-flex; overflow: hidden; max-width: 100%;">
+                                    <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 1rem; min-width: 300px;">
+                                        <div style="background: #dbeafe; color: #2563eb; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                                        </div>
+                                        <div>
+                                            <h4 style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.1rem;">Torquímetro Digital SNAP-ON</h4>
+                                            <p style="font-size: 0.75rem; color: var(--text-muted);">TQM-2024-001</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- User RS -->
-            <div class="user-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
-                <div style="display: flex; gap: 1.5rem;">
-                    <div class="user-avatar-large" style="width: 56px; height: 56px; background-color: var(--bg-dark); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 600; flex-shrink: 0;">RS</div>
-                    
-                    <div style="flex-grow: 1;">
-                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                            <h3 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600;">Roberto Sánchez</h3>
-                            <span class="badge" style="background: #dcfce7; color: #166534; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">Trabajador</span>
-                            <div style="width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%;"></div>
-                        </div>
+                <!-- User RS -->
+                <div class="user-card" style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+                    <div style="display: flex; gap: 1.5rem;">
+                        <div class="user-avatar-large" style="width: 56px; height: 56px; background-color: var(--bg-dark); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 600; flex-shrink: 0;">RS</div>
                         
-                        <div style="display: flex; gap: 1.5rem; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">
-                            <span style="display: flex; align-items: center; gap: 0.4rem;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                                roberto.sanchez@automotive.com
-                            </span>
-                            <span style="display: flex; align-items: center; gap: 0.4rem;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                                Almacén
-                            </span>
-                        </div>
-                        
-                        <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-                                Activos Asignados (1)
+                        <div style="flex-grow: 1;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                <h3 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600;">Roberto Sánchez</h3>
+                                <span class="badge" style="background: #dcfce7; color: #166534; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">Trabajador</span>
+                                <div style="width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%;"></div>
                             </div>
                             
-                            <div style="display: inline-flex; overflow: hidden; max-width: 100%;">
-                                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 1rem; min-width: 300px;">
-                                    <div style="background: #dbeafe; color: #2563eb; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-                                    </div>
-                                    <div>
-                                        <h4 style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.1rem;">Motor Eléctrico 15HP</h4>
-                                        <p style="font-size: 0.75rem; color: var(--text-muted);">MTR-15-234</p>
+                            <div style="display: flex; gap: 1.5rem; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">
+                                <span style="display: flex; align-items: center; gap: 0.4rem;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                    roberto.sanchez@automotive.com
+                                </span>
+                                <span style="display: flex; align-items: center; gap: 0.4rem;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                    Almacén
+                                </span>
+                            </div>
+                            
+                            <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                                    Activos Asignados (1)
+                                </div>
+                                
+                                <div style="display: inline-flex; overflow: hidden; max-width: 100%;">
+                                    <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 1rem; min-width: 300px;">
+                                        <div style="background: #dbeafe; color: #2563eb; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                                        </div>
+                                        <div>
+                                            <h4 style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.1rem;">Motor Eléctrico 15HP</h4>
+                                            <p style="font-size: 0.75rem; color: var(--text-muted);">MTR-15-234</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -231,6 +233,61 @@
             </div>
         </div>
     </main>
+
+    <!-- Modal: Nuevo Usuario -->
+    <div id="newEmployeeModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Añadir Nuevo Empleado</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="newEmployeeForm">
+                    <div class="form-group">
+                        <label>Nombre Completo <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="nombre" placeholder="Ej: Juan Pérez" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Correo Electrónico <span>*</span></label>
+                        <div class="input-container">
+                            <input type="email" name="email" placeholder="ejemplo@automotive.com" required>
+                        </div>
+                    </div>
+                    <div class="row-2">
+                        <div class="form-group">
+                            <label>Departamento <span>*</span></label>
+                            <div class="input-container">
+                                <select name="departamento" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="Producción">Producción</option>
+                                    <option value="Almacén">Almacén</option>
+                                    <option value="Mantenimiento">Mantenimiento</option>
+                                    <option value="Calidad">Calidad</option>
+                                    <option value="Ingeniería">Ingeniería</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Rol <span>*</span></label>
+                            <div class="input-container">
+                                <select name="rol" required>
+                                    <option value="Trabajador">Trabajador</option>
+                                    <option value="Supervisor">Supervisor</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                        <button type="button" class="btn-secondary close-modal" style="width: auto; padding: 0.7rem 2rem; margin-top: 0;">Cancelar</button>
+                        <button type="submit" class="btn-login" style="width: auto; padding: 0.7rem 2.5rem; margin-top: 0; background: #0f172a; color: white;">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>

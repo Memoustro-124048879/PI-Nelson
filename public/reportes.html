@@ -86,152 +86,154 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="main-container">
-        <header class="page-header">
-            <div>
-                <h1>Reportes y Análisis</h1>
-                <p>Genere reportes detallados sobre los activos y su gestión</p>
-            </div>
-        </header>
-
-        <!-- CTA Banner -->
-        <div class="cta-banner" style="background: #0f172a; border-radius: 16px; padding: 2rem; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
-            <div>
-                <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Crear Nuevo Reporte Personalizado</h2>
-                <p style="opacity: 0.8; font-size: 0.95rem;">Genere reportes personalizados con imágenes, descripciones y toda la información relevante</p>
-            </div>
-            <button id="openNewReportBtn" class="btn-login" style="width: auto; margin-top: 0; padding: 0.75rem 1.5rem; background: white; color: #0f172a; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; border-radius: 8px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                Nuevo Reporte
-            </button>
-        </div>
-
-        <!-- Summary Metrics -->
-        <div class="dashboard-grid" style="margin-bottom: 2.5rem;">
-            <div class="metric-card">
-                <div class="metric-top" style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 0.9rem; color: var(--text-muted);">Valor Total de Activos</span>
-                    <span style="color: var(--success); font-weight: bold;">$</span>
+    <main class="main-content">
+        <div class="content-wrapper-centered">
+            <header class="page-header">
+                <div>
+                    <h1>Reportes y Análisis</h1>
+                    <p>Genere reportes detallados sobre los activos y su gestión</p>
                 </div>
-                <h2 style="font-size: 2rem; margin: 1rem 0;">$542,700.00</h2>
-                <span style="font-size: 0.8rem; color: var(--text-muted);">MXN</span>
-            </div>
-            <div class="metric-card">
-                <div class="metric-top" style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 0.9rem; color: var(--text-muted);">Valor Promedio</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-blue);"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path></svg>
-                </div>
-                <h2 style="font-size: 2rem; margin: 1rem 0;">$67,837.50</h2>
-                <span style="font-size: 0.8rem; color: var(--text-muted);">Por activo</span>
-            </div>
-            <div class="metric-card">
-                <div class="metric-top" style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 0.9rem; color: var(--text-muted);">Costo de Mantenimiento</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-orange);"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-                </div>
-                <h2 style="font-size: 2rem; margin: 1rem 0;">$7,680.00</h2>
-                <span style="font-size: 0.8rem; color: var(--text-muted);">Total histórico</span>
-            </div>
-        </div>
+            </header>
 
-        <!-- Export Sections -->
-        <div class="dashboard-grid">
-            <div class="section-box" style="padding: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
-                    <div style="background: #f3e8ff; color: #a855f7; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            <!-- CTA Banner -->
+            <div class="cta-banner" style="background: #0f172a; border-radius: 16px; padding: 2rem; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+                <div>
+                    <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Crear Nuevo Reporte Personalizado</h2>
+                    <p style="opacity: 0.8; font-size: 0.95rem;">Genere reportes personalizados con imágenes, descripciones y toda la información relevante</p>
+                </div>
+                <button id="openNewReportBtn" class="btn-login" style="width: auto; margin-top: 0; padding: 0.75rem 1.5rem; background: white; color: #0f172a; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; border-radius: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Nuevo Reporte
+                </button>
+            </div>
+
+            <!-- Summary Metrics -->
+            <div class="dashboard-grid" style="margin-bottom: 2.5rem;">
+                <div class="metric-card">
+                    <div class="metric-top" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.9rem; color: var(--text-muted);">Valor Total de Activos</span>
+                        <span style="color: var(--success); font-weight: bold;">$</span>
                     </div>
-                    <span style="font-size: 0.75rem; color: var(--text-muted);">5 registros</span>
+                    <h2 style="font-size: 2rem; margin: 1rem 0;">$542,700.00</h2>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">MXN</span>
                 </div>
-                <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Solicitudes</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.5;">Resumen de todas las solicitudes de activos del personal</p>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #0f172a; color: white; border: none; padding: 0.6rem;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        PDF
-                    </button>
-                    <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.6rem;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Excel
-                    </button>
-                </div>
-            </div>
-
-            <div class="section-box" style="padding: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
-                    <div style="background: #fff7ed; color: #f97316; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                <div class="metric-card">
+                    <div class="metric-top" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.9rem; color: var(--text-muted);">Valor Promedio</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-blue);"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path></svg>
                     </div>
-                    <span style="font-size: 0.75rem; color: var(--text-muted);">5 registros</span>
+                    <h2 style="font-size: 2rem; margin: 1rem 0;">$67,837.50</h2>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Por activo</span>
                 </div>
-                <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Mantenimientos</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.5;">Historial completo de mantenimientos preventivos y correctivos</p>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #0f172a; color: white; border: none; padding: 0.6rem;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        PDF
-                    </button>
-                    <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.6rem;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Excel
-                    </button>
-                </div>
-            </div>
-
-            <div class="section-box" style="padding: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
-                    <div style="background: #f0fdf4; color: #22c55e; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <div class="metric-card">
+                    <div class="metric-top" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.9rem; color: var(--text-muted);">Costo de Mantenimiento</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-orange);"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
                     </div>
-                    <span style="font-size: 0.75rem; color: var(--text-muted);">3 registros</span>
-                </div>
-                <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Historial de Movimientos</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.5;">Registro detallado de todos los movimientos de activos</p>
-                <div style="display: flex; gap: 1rem;">
-                    <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #0f172a; color: white; border: none; padding: 0.6rem;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        PDF
-                    </button>
-                    <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.6rem;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Excel
-                    </button>
+                    <h2 style="font-size: 2rem; margin: 1rem 0;">$7,680.00</h2>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Total histórico</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Recent Reports Table/List -->
-        <div class="section-box" style="margin-top: 2.5rem; padding: 2rem;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <h3 style="display: flex; align-items: center; gap: 0.75rem;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg> Reportes Recientes</h3>
-                <span class="badge-status" style="background: #eff6ff; color: #3b82f6;">5 reportes</span>
+            <!-- Export Sections -->
+            <div class="dashboard-grid">
+                <div class="section-box" style="padding: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+                        <div style="background: #f3e8ff; color: #a855f7; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        </div>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">5 registros</span>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Solicitudes</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.5;">Resumen de todas las solicitudes de activos del personal</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #0f172a; color: white; border: none; padding: 0.6rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            PDF
+                        </button>
+                        <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.6rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Excel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section-box" style="padding: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+                        <div style="background: #fff7ed; color: #f97316; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                        </div>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">5 registros</span>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Mantenimientos</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.5;">Historial completo de mantenimientos preventivos y correctivos</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #0f172a; color: white; border: none; padding: 0.6rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            PDF
+                        </button>
+                        <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.6rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Excel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section-box" style="padding: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+                        <div style="background: #f0fdf4; color: #22c55e; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </div>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">3 registros</span>
+                    </div>
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1rem;">Historial de Movimientos</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.5;">Registro detallado de todos los movimientos de activos</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: #0f172a; color: white; border: none; padding: 0.6rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            PDF
+                        </button>
+                        <button class="btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.6rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Excel
+                        </button>
+                    </div>
+                </div>
             </div>
-            
-            <table class="asset-table">
-                <thead>
-                    <tr>
-                        <th style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">Nombre del Reporte</th>
-                        <th style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">Fecha</th>
-                        <th style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); text-align: right;">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="font-weight: 500;">Reporte de Torquímetros SNAP-ON</td>
-                        <td style="color: var(--text-muted); font-size: 0.85rem;">18 de febrero de 2026, 10:30 AM</td>
-                        <td style="text-align: right;">
-                            <button class="btn-action view-report-btn" title="Ver Detalle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Ver</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="font-weight: 500;">Reporte de Escáner 3D FARO</td>
-                        <td style="color: var(--text-muted); font-size: 0.85rem;">17 de febrero de 2026, 14:15 PM</td>
-                        <td style="text-align: right;">
-                            <button class="btn-action view-report-btn" title="Ver Detalle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Ver</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <!-- Recent Reports Table/List -->
+            <div class="section-box" style="margin-top: 2.5rem; padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h3 style="display: flex; align-items: center; gap: 0.75rem;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg> Reportes Recientes</h3>
+                    <span class="badge-status" style="background: #eff6ff; color: #3b82f6;">5 reportes</span>
+                </div>
+                
+                <table class="asset-table">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">Nombre del Reporte</th>
+                            <th style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">Fecha</th>
+                            <th style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); text-align: right;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 500;">Reporte de Torquímetros SNAP-ON</td>
+                            <td style="color: var(--text-muted); font-size: 0.85rem;">18 de febrero de 2026, 10:30 AM</td>
+                            <td style="text-align: right;">
+                                <button class="btn-action view-report-btn" title="Ver Detalle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Ver</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 500;">Reporte de Escáner 3D FARO</td>
+                            <td style="color: var(--text-muted); font-size: 0.85rem;">17 de febrero de 2026, 14:15 PM</td>
+                            <td style="text-align: right;">
+                                <button class="btn-action view-report-btn" title="Ver Detalle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Ver</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 

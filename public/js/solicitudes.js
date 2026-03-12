@@ -15,7 +15,56 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 2. Set Profile
-    if (typeof loadSidebar === 'function') loadSidebar();
+    const userName = localStorage.getItem('user_name') || 'Usuario';
+    const userRole = localStorage.getItem('user_role') || 'Invitado';
+
+    // UI elements
+    const sidebarName = document.getElementById('sidebar-name');
+    const sidebarRole = document.getElementById('sidebar-role');
+    const sidebarAvatar = document.getElementById('sidebar-avatar');
+
+    if (sidebarName) sidebarName.textContent = userName;
+    if (sidebarRole) sidebarRole.textContent = userRole;
+    if (sidebarAvatar) sidebarAvatar.textContent = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+
+    // 3. Role-Based Sidebar Navigation
+    updateNavigation(userRole);
+
+    function updateNavigation(role) {
+        const navMenu = document.querySelector('.nav-menu');
+        const btnScan = document.getElementById('btn-scan');
+
+        // Nav items filtering
+        const items = navMenu.querySelectorAll('.nav-item');
+        items.forEach(item => {
+            const link = item.querySelector('a');
+            const text = link.textContent.trim();
+
+            if (role === 'Trabajador') {
+                const allowed = ['Dashboard', 'Solicitudes'];
+                if (!allowed.includes(text)) item.style.display = 'none';
+            } else {
+                // Admin / Supervisor
+                if (text === 'Escanear QR') item.style.display = 'none';
+            }
+        });
+
+        // QR Button logic
+        if (btnScan) {
+            if (role === 'Trabajador') {
+                btnScan.style.display = 'flex';
+            } else {
+                btnScan.style.display = 'none';
+            }
+        }
+    }
+
+    // Logout Logic
+    document.getElementById('btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = 'login.html';
+    });
 
     // Rest of initialization follows...
 
@@ -37,54 +86,56 @@ document.addEventListener('DOMContentLoaded', () => {
     btnCancel.addEventListener('click', (e) => { e.preventDefault(); closeModal(); });
 
     // 4. Submit Request
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const payload = {
-            activo_id: document.getElementById('activo_id').value,
-            fecha_programada: document.getElementById('fecha_programada').value,
-            responsable_cambio: document.getElementById('responsable_cambio').value,
-            nueva_ubicacion: document.getElementById('nueva_ubicacion').value,
-            urgencia: document.getElementById('urgencia').value,
-            motivo: document.getElementById('motivo').value
+
+        const activo_id        = document.getElementById('activo_id').value;
+        const fecha_programada = document.getElementById('fecha_programada').value;
+        const responsable      = document.getElementById('responsable_cambio').value;
+        const ubicacion        = document.getElementById('nueva_ubicacion').value;
+        const urgencia         = document.getElementById('urgencia').value;
+        const motivo           = document.getElementById('motivo').value;
+
+        // Basic validation
+        if (!activo_id || !fecha_programada || !responsable || !ubicacion || !motivo) {
+            alert('Por favor complete todos los campos obligatorios.');
+            return;
+        }
+
+        // Load current list
+        const stored = localStorage.getItem('sigaf_solicitudes');
+        solicitudesData = stored ? JSON.parse(stored) : [];
+
+        // Build new entry
+        const now = new Date();
+        const newSolicitud = {
+            id: Date.now(),
+            activo: activo_id,
+            estado: 'Pendiente', estadoClass: 'badge-pending',
+            urgencia: urgencia,
+            urgenciaClass: urgencia === 'Alta' ? 'badge-high' : (urgencia === 'Baja' ? 'badge-low' : 'badge-medium'),
+            solicitado_por: localStorage.getItem('user_name') || 'Usuario',
+            fecha_solicitud: now.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+            fecha_programada: fecha_programada,
+            realizara_cambio: responsable,
+            ubicacion_actual: 'N/A',
+            nueva_ubicacion: ubicacion,
+            motivo: motivo,
+            progress: 1
         };
 
-        try {
-            // Ejemplo de llamada real:
-            /*
-            const res = await fetch('/api/solicitudes', {
-                method: 'POST',
-                headers,
-                body: JSON.stringify(payload)
-            });
-            if(res.ok) {
-                alert('Solicitud creada');
-                closeModal();
-                loadSolicitudes();
-            } else {
-                alert('Error al crear solicitud');
-            }
-            */
-            solicitudesData.unshift({
-                id: Date.now(),
-                activo: payload.activo_id || 'Activo Nuevo',
-                estado: 'Pendiente', estadoClass: 'badge-pending',
-                urgencia: payload.urgencia || 'Media', urgenciaClass: 'badge-medium',
-                solicitado_por: localStorage.getItem('user_name') || 'Usuario Autorizado',
-                fecha_solicitud: new Date().toLocaleDateString() + ', ' + new Date().getHours() + ':' + new Date().getMinutes(),
-                fecha_programada: payload.fecha_programada.replace('T', ', '),
-                realizara_cambio: payload.responsable_cambio,
-                ubicacion_actual: 'Ubicación Desconocida',
-                nueva_ubicacion: payload.nueva_ubicacion,
-                motivo: payload.motivo,
-                progress: 1
-            });
+        solicitudesData.unshift(newSolicitud);
+        localStorage.setItem('sigaf_solicitudes', JSON.stringify(solicitudesData));
+
+        // Safe toast
+        if (typeof ui !== 'undefined' && ui.showToast) {
             ui.showToast('Solicitud enviada exitosamente', 'success');
-            renderSolicitudes();
-            closeModal();
-        } catch (error) {
-            console.error(error);
         }
+
+        renderSolicitudes();
+        closeModal();
     });
+
 
     // 5. Filtering logic
     const filterBtns = document.querySelectorAll('.btn-filter');
@@ -114,44 +165,85 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadSolicitudes() {
         try {
-            // Ejemplo llamada real:
-            /*
-            const res = await fetch('/api/solicitudes', { headers });
-            solicitudesData = await res.json();
-            */
-            
-            // Mock Data matching Figma Image 2 and 3
-            solicitudesData = [
-                {
-                    id: 1,
-                    activo: 'Torquímetro Digital SNAP-ON',
-                    estado: 'Pendiente', estadoClass: 'badge-pending',
-                    urgencia: 'Media', urgenciaClass: 'badge-medium',
-                    solicitado_por: 'Miguel Torres',
-                    fecha_solicitud: '18 feb 2026, 10:30',
-                    fecha_programada: '21 feb 2026, 08:00',
-                    realizara_cambio: 'Roberto Sánchez',
-                    ubicacion_actual: 'Planta Principal - Área de Ensamble',
-                    nueva_ubicacion: 'Planta Principal - Línea de Producción B',
-                    motivo: 'Requerido para nuevo proyecto de ensamble en Línea B',
-                    progress: 1 // 1=Enviada, 2=Aprobada, 3=Movimiento
-                },
-                {
-                    id: 2,
-                    activo: 'Escáner 3D FARO',
-                    estado: 'Aprobada', estadoClass: 'badge-approved',
-                    urgencia: 'Alta', urgenciaClass: 'badge-high',
-                    solicitado_por: 'Laura Gómez',
-                    fecha_solicitud: '17 feb 2026, 14:15',
-                    fecha_programada: '20 feb 2026, 09:00',
-                    realizara_cambio: 'José Ramírez',
-                    ubicacion_actual: 'Laboratorio de Calidad',
-                    nueva_ubicacion: 'Planta - Área de Ingeniería',
-                    motivo: 'Medición de prototipos de nueva línea de productos',
-                    progress: 2
+            // Persistence: Load assets for the select dropdown
+            const selectActivo = document.getElementById('activo_id');
+            if (selectActivo) {
+                const storedAssets = localStorage.getItem('sigaf_assets');
+                if (storedAssets) {
+                    const assets = JSON.parse(storedAssets);
+                    assets.forEach(asset => {
+                        const opt = document.createElement('option');
+                        opt.value = asset.nombre;
+                        opt.textContent = `${asset.id} - ${asset.nombre}`;
+                        selectActivo.appendChild(opt);
+                    });
                 }
-            ];
+            }
 
+            // Populate responsable_cambio dropdown from employees
+            const selectResponsable = document.getElementById('responsable_cambio');
+            if (selectResponsable) {
+                const defaultUsers = [
+                    { id: 1, nombre: 'Miguel Torres', email: 'miguel.torres@automotive.com', departamento: 'Producción - Línea A', rol: 'Trabajador' },
+                    { id: 2, nombre: 'Roberto Sánchez', email: 'roberto.sanchez@automotive.com', departamento: 'Almacén', rol: 'Trabajador' },
+                    { id: 3, nombre: 'Laura Gómez', email: 'laura.gomez@automotive.com', departamento: 'Calidad', rol: 'Supervisor' },
+                    { id: 4, nombre: 'José Ramírez', email: 'jose.ramirez@automotive.com', departamento: 'Logística', rol: 'Trabajador' },
+                    { id: 5, nombre: 'Carlos Vargas', email: 'carlos.vargas@automotive.com', departamento: 'Mantenimiento', rol: 'Trabajador' },
+                    { id: 6, nombre: 'Ana Rodríguez', email: 'ana.rodriguez@automotive.com', departamento: 'Sistemas', rol: 'Admin' },
+                    { id: 7, nombre: 'Luis Pérez', email: 'luis.perez@automotive.com', departamento: 'Ingeniería', rol: 'Trabajador' }
+                ];
+                let storedUsers = localStorage.getItem('sigaf_users');
+                const users = storedUsers ? JSON.parse(storedUsers) : defaultUsers;
+                // Initialize localStorage if empty
+                if (!storedUsers) {
+                    localStorage.setItem('sigaf_users', JSON.stringify(defaultUsers));
+                }
+                users.forEach(user => {
+                    const opt = document.createElement('option');
+                    opt.value = user.nombre;
+                    opt.textContent = user.nombre;
+                    selectResponsable.appendChild(opt);
+                });
+            }
+
+            // Load Solicitudes
+            let storedSolicitudes = localStorage.getItem('sigaf_solicitudes');
+            if (storedSolicitudes) {
+                solicitudesData = JSON.parse(storedSolicitudes);
+            } else {
+                solicitudesData = [
+                    {
+                        id: 1,
+                        activo: 'Torquímetro Digital SNAP-ON',
+                        estado: 'Pendiente', estadoClass: 'badge-pending',
+                        urgencia: 'Media', urgenciaClass: 'badge-medium',
+                        solicitado_por: 'Miguel Torres',
+                        fecha_solicitud: '18 feb 2026, 10:30',
+                        fecha_programada: '21 feb 2026, 08:00',
+                        realizara_cambio: 'Roberto Sánchez',
+                        ubicacion_actual: 'Planta Principal - Área de Ensamble',
+                        nueva_ubicacion: 'Planta Principal - Línea de Producción B',
+                        motivo: 'Requerido para nuevo proyecto de ensamble en Línea B',
+                        progress: 1
+                    },
+                    {
+                        id: 2,
+                        activo: 'Escáner 3D FARO',
+                        estado: 'Aprobada', estadoClass: 'badge-approved',
+                        urgencia: 'Alta', urgenciaClass: 'badge-high',
+                        solicitado_por: 'Laura Gómez',
+                        fecha_solicitud: '17 feb 2026, 14:15',
+                        fecha_programada: '20 feb 2026, 09:00',
+                        realizara_cambio: 'José Ramírez',
+                        ubicacion_actual: 'Laboratorio de Calidad',
+                        nueva_ubicacion: 'Planta - Área de Ingeniería',
+                        motivo: 'Medición de prototipos de nueva línea de productos',
+                        progress: 2
+                    }
+                ];
+                localStorage.setItem('sigaf_solicitudes', JSON.stringify(solicitudesData));
+            }
+            
             renderSolicitudes('all');
         } catch (error) {
             console.error(error);

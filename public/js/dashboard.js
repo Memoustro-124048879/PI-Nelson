@@ -14,50 +14,105 @@ document.addEventListener('DOMContentLoaded', () => {
         'Authorization': `Bearer ${token}`
     };
 
-    // 2. Set Profile Data - Call ui.js loadSidebar logic
-    if (typeof loadSidebar === 'function') loadSidebar();
-    
-    // Also explicitly set the dashboard welcome message
-    const userName = localStorage.getItem('user_name') || 'Miguel Torres';
-    const userRole = localStorage.getItem('user_role') || 'Trabajador';
-    document.getElementById('welcome-message').textContent = `Bienvenido, ${userName} - ${userRole}`;
+    // 2. Set Profile Data
+    const userName = localStorage.getItem('user_name') || 'Usuario';
+    const userRole = localStorage.getItem('user_role') || 'Invitado';
+    const userEmail = localStorage.getItem('user_email') || '';
 
-    // 3. Logout Logic
-    document.getElementById('btn-logout').addEventListener('click', (e) => {
-        e.preventDefault();
-        localStorage.removeItem('token');
-        localStorage.removeItem('user_name');
-        localStorage.removeItem('user_role');
-        window.location.href = 'login.html';
-    });
+    // Fix "Cargando" bug immediately
+    const sidebarName = document.getElementById('sidebar-name');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const sidebarRole = document.getElementById('sidebar-role');
+    const sidebarAvatar = document.getElementById('sidebar-avatar');
 
-    const btnScan = document.getElementById('btn-scan');
-    if (btnScan) {
-        btnScan.addEventListener('click', () => {
-            window.location.href = 'escanear.html';
+    if (sidebarName) sidebarName.textContent = userName;
+    if (sidebarRole) sidebarRole.textContent = userRole;
+    if (welcomeMessage) welcomeMessage.textContent = `Bienvenido, ${userName} (${userRole})`;
+    if (sidebarAvatar) sidebarAvatar.textContent = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+
+    // 3. Role-Based Sidebar Navigation
+    updateNavigation(userRole);
+
+    function updateNavigation(role) {
+        const navMenu = document.querySelector('.nav-menu');
+        const btnScan = document.getElementById('btn-scan');
+        const workerSection = document.getElementById('worker-chart-section');
+
+        // Nav items filtering
+        const items = navMenu.querySelectorAll('.nav-item');
+        items.forEach(item => {
+            const link = item.querySelector('a');
+            const text = link.textContent.trim();
+
+            if (role === 'Trabajador') {
+                const allowed = ['Dashboard', 'Solicitudes'];
+                if (!allowed.includes(text)) item.style.display = 'none';
+            } else {
+                // Admin / Supervisor
+                if (text === 'Escanear QR') item.style.display = 'none';
+            }
         });
+
+        // Dashboard sections visibility
+        if (role === 'Trabajador' && workerSection) {
+            workerSection.style.display = 'block';
+            renderWorkerChart('day');
+        }
+
+        // QR Button logic
+        if (btnScan) {
+            if (role === 'Trabajador') {
+                btnScan.style.display = 'flex';
+            } else {
+                btnScan.style.display = 'none';
+            }
+        }
     }
 
-    // 4. Load Dashboard Data via Fetch
+    // Chart logic for Workers
+    function renderWorkerChart(filter) {
+        const chartContainer = document.getElementById('requests-chart');
+        if (!chartContainer) return;
+
+        // Mock data for filters
+        const chartData = {
+            day: [1, 3, 2, 5, 4, 2, 3],
+            week: [15, 22, 18, 25, 20, 12, 10],
+            month: [80, 95, 70, 85, 90, 60, 55]
+        };
+
+        const currentData = chartData[filter];
+        const max = Math.max(...currentData);
+
+        chartContainer.innerHTML = currentData.map(val => `
+            <div style="flex: 1; background: var(--primary); height: ${(val / max) * 100}%; border-radius: 4px 4px 0 0; position: relative;" title="${val} activos">
+                <span style="position: absolute; top: -20px; width: 100%; text-align: center; font-size: 10px; color: var(--text-muted);">${val}</span>
+            </div>
+        `).join('');
+    }
+
+    // Listen for filter clicks
+    document.querySelectorAll('.btn-filter').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            renderWorkerChart(e.target.dataset.filter);
+        });
+    });
+
+    // 4. Load Dashboard Data
     loadDashboardData();
 
     async function loadDashboardData() {
         try {
-            // Uncomment to use real API
-            /*
-            const res = await fetch('/api/dashboard', { headers });
-            if(res.status === 401) { window.location.href = 'login.html'; return; }
-            const data = await res.json();
-            */
-            
             // MOCKED DATA matching Figma designs
             const data = {
-                stats: {
-                    total: 8, total_desc: "+12 este mes",
-                    en_uso: 4, en_uso_desc: "50% del total",
-                    mantenimiento: 1,
-                    pendientes: 2
-                },
+                stats: [
+                    { id: 'stat-total', title: 'Total Activos', value: 342, desc: '+12 este mes', icon: 'blue', positive: true },
+                    { id: 'stat-en-uso', title: 'Activos en Uso', value: 156, desc: '45% del total', icon: 'green', positive: false },
+                    { id: 'stat-mantenimiento', title: 'En Mantenimiento', value: 12, desc: '3 críticos', icon: 'orange', positive: false, warning: true },
+                    { id: 'stat-pendientes', title: 'Solicitudes Pendientes', value: 8, desc: 'Requieren aprobación', icon: 'yellow', warning: true }
+                ],
                 movimientos: [
                     { activo: 'Torquímetro Digital SNAP-ON', origen: 'Almacén Central', destino: 'Planta Principal - Área de Ensamble', fecha: '15/1/2026' },
                     { activo: 'Montacargas Eléctrico YALE', origen: 'Almacén - Zona de Mantenimiento', destino: 'Almacén - Zona de Carga', fecha: '1/2/2026' },
@@ -70,46 +125,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 ]
             };
 
-            // Render Stats
-            document.getElementById('stat-total').textContent = data.stats.total;
-            document.getElementById('stat-en-uso').textContent = data.stats.en_uso;
-            document.getElementById('stat-mantenimiento').textContent = data.stats.mantenimiento;
-            document.getElementById('stat-pendientes').textContent = data.stats.pendientes;
-
-            // Render Movimientos
-            const movContainer = document.getElementById('movements-list');
-            movContainer.innerHTML = data.movimientos.map(m => `
-                <div class="list-item">
-                    <div class="item-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    </div>
-                    <div class="item-details">
-                        <h4>${m.activo}</h4>
-                        <p>${m.origen} &rarr; ${m.destino}</p>
-                        <div class="item-meta">${m.fecha}</div>
-                    </div>
-                </div>
-            `).join('');
-
-            // Render Solicitudes
-            const reqContainer = document.getElementById('requests-list');
-            reqContainer.innerHTML = data.solicitudes.map(s => `
-                <div class="list-item">
-                    <div class="item-icon yellow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    </div>
-                    <div class="item-details" style="flex:1;">
-                        <h4>${s.activo}</h4>
-                        <p>${s.solicitante}</p>
-                        <div class="item-meta">
-                            <span class="badge ${s.badgeClass}">${s.estado}</span> ${s.fecha}
+            // Render Stats Grid
+            const statsContainer = document.getElementById('stats-container');
+            if (statsContainer) {
+                statsContainer.innerHTML = data.stats.map(s => `
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="icon-wrapper icon-${s.icon}">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                            </div>
+                            <div class="stat-desc ${s.positive ? 'positive' : (s.warning ? 'warning' : '')}">
+                                ${s.desc}
+                            </div>
                         </div>
+                        <h4 class="stat-title">${s.title}</h4>
+                        <div class="stat-value">${s.value}</div>
                     </div>
-                </div>
-            `).join('');
-
+                `).join('');
+            }
         } catch (error) {
-            console.error('Error cargando el dashboard:', error);
+            console.error('Error loading dashboard data:', error);
+            // Optionally display an error message to the user
         }
     }
+
+    // Logout Logic
+    document.getElementById('btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = 'login.html';
+    });
 });

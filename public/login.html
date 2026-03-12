@@ -11,37 +11,37 @@
         <!-- Left Side: Branding and Info -->
         <div class="login-left">
             <div class="login-brand">
-                <div class="brand-icon login-brand-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="brand-icon" style="background: rgba(255,255,255,0.1); width: 48px; height: 48px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white; width: 28px; height: 28px;">
                         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                         <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
                         <line x1="12" y1="22.08" x2="12" y2="12"></line>
                     </svg>
                 </div>
                 <div class="brand-text">
-                    <h1 style="color: white">SIGAF-QR</h1>
-                    <span>Sistema de Gestión de Activos Fijos</span>
+                    <h1 style="color: white; font-size: 1.5rem; margin: 0;">SIGAF-QR</h1>
+                    <span style="color: #94a3b8; font-size: 0.875rem;">Gestión de Activos</span>
                 </div>
             </div>
 
             <div class="login-left-content">
-                <h1>Control y trazabilidad de activos industriales</h1>
-                <p>Gestione de manera eficiente todos los activos fijos de su empresa mediante tecnología QR. Control total sobre asignaciones, movimientos y estados de equipos.</p>
+                <h1>Control Total de sus Activos</h1>
+                <p>Gestione sus activos con tecnología QR de forma intuitiva, eficiente y centralizada.</p>
                 
                 <div class="login-stats">
                     <div class="login-stat">
-                        <h3>500+</h3>
-                        <p>Activos Registrados</p>
+                        <h3>+500</h3>
+                        <p>Activos</p>
                     </div>
                     <div class="login-stat">
-                        <h3>99.8%</h3>
+                        <h3>100%</h3>
                         <p>Trazabilidad</p>
                     </div>
                 </div>
             </div>
 
             <div class="login-image">
-                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80" alt="Industrial warehouse">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80" alt="Dashboard Preview">
             </div>
         </div>
 
@@ -53,25 +53,22 @@
 
                 <form id="login-form">
                     <div class="form-group">
-                        <label class="form-label">Usuario</label>
-                        <input type="text" class="form-control" id="username" placeholder="Ingrese su usuario" required>
+                        <label class="form-label">Usuario / Correo</label>
+                        <input type="text" class="form-control" id="username" placeholder="ejemplo@sigaf.com" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" style="display:flex; justify-content:space-between;">
-                            Contraseña
-                        </label>
-                        <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña" required>
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" placeholder="••••••••" required>
                         <a href="#" class="forgot-password" id="btn-forgot-password">¿Olvidó su contraseña?</a>
                     </div>
                     
-                    <button type="submit" class="btn-primary btn-block">Iniciar Sesión</button>
+                    <button type="submit" class="btn-primary btn-block" style="padding: 0.875rem; border-radius: 8px; font-weight: 600; margin-top: 1.5rem;">
+                        Entrar al Sistema
+                    </button>
                 </form>
 
                 <div class="demo-credentials">
-                    <p>Credenciales de demostración:</p>
-                    <p><strong>Admin:</strong> usuario: admin / contraseña: demo123</p>
-                    <p><strong>Supervisor:</strong> usuario: supervisor / contraseña: demo123</p>
-                    <p><strong>Trabajador:</strong> usuario: worker / contraseña: demo123</p>
+                    <p><strong>Demos:</strong> Admin@sigaf.com, Supervisor@sigaf.com, Trabajador@sigaf.com / <strong>demo123</strong></p>
                 </div>
             </div>
         </div>
@@ -84,21 +81,34 @@
                 <h3>Recuperar Contraseña</h3>
                 <button type="button" class="modal-close" id="btn-close-forgot">&times;</button>
             </div>
-            <div class="modal-body">
-                <p class="subtitle" style="font-size:0.875rem; color:var(--text-muted); margin-bottom:1rem;">Ingrese su correo electrónico y le enviaremos instrucciones para restablecer su contraseña.</p>
-                <form id="forgot-password-form">
+            <div class="modal-body" id="forgot-modal-body">
+                <!-- Content will change via JS -->
+                <div id="step-1">
+                    <p class="subtitle" style="font-size:0.875rem; color:var(--text-muted); margin-bottom:1rem;">Ingrese su correo para iniciar la recuperación.</p>
                     <div class="form-group">
                         <label class="form-label">Correo Electrónico</label>
-                        <div style="position:relative;">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); color:var(--text-muted);"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            <input type="email" class="form-control" style="padding-left:2.5rem;" required placeholder="nombre@empresa.com">
-                        </div>
+                        <input type="email" id="forgot-email" class="form-control" required placeholder="tu@correo.com">
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer" style="justify-content: flex-start; gap: 1rem;">
-                <button type="button" class="btn-secondary" id="btn-cancel-forgot" style="flex:1;">&larr; Cancelar</button>
-                <button type="submit" class="btn-primary" form="forgot-password-form" style="flex:1;">Enviar Instrucciones</button>
+                    <button type="button" class="btn-primary btn-block" id="btn-goto-step-2">Continuar</button>
+                </div>
+
+                <div id="step-2" style="display:none;">
+                    <p class="subtitle" style="font-size:0.875rem; color:var(--text-muted); margin-bottom:1rem;">Ingrese el código enviado a su correo (use 1234).</p>
+                    <div class="form-group">
+                        <label class="form-label">Código de Verificación</label>
+                        <input type="text" id="forgot-code" class="form-control" placeholder="1234" maxlength="4" style="text-align: center; font-size: 1.5rem; letter-spacing: 0.5rem;">
+                    </div>
+                    <button type="button" class="btn-primary btn-block" id="btn-goto-step-3">Verificar Código</button>
+                </div>
+
+                <div id="step-3" style="display:none; text-align: center; padding: 1rem 0;">
+                    <div style="color: #10b981; margin-bottom: 1rem;">
+                        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <h3 style="margin-bottom: 0.5rem;">¡Éxito!</h3>
+                    <p style="color: var(--text-muted);">El correo de recuperación ha sido enviado correctamente.</p>
+                    <button type="button" class="btn-secondary btn-block" style="margin-top: 1.5rem;" onclick="location.reload()">Volver al Login</button>
+                </div>
             </div>
         </div>
     </div>

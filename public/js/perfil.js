@@ -5,7 +5,56 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    if (typeof loadSidebar === 'function') loadSidebar();
+    // 2. Set Profile
+    const userName = localStorage.getItem('user_name') || 'Usuario';
+    const userRole = localStorage.getItem('user_role') || 'Invitado';
+
+    // UI elements
+    const sidebarName = document.getElementById('sidebar-name');
+    const sidebarRole = document.getElementById('sidebar-role');
+    const sidebarAvatar = document.getElementById('sidebar-avatar');
+
+    if (sidebarName) sidebarName.textContent = userName;
+    if (sidebarRole) sidebarRole.textContent = userRole;
+    if (sidebarAvatar) sidebarAvatar.textContent = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+
+    // 3. Role-Based Sidebar Navigation
+    updateNavigation(userRole);
+
+    function updateNavigation(role) {
+        const navMenu = document.querySelector('.nav-menu');
+        const btnScan = document.getElementById('btn-scan');
+
+        // Nav items filtering
+        const items = navMenu.querySelectorAll('.nav-item');
+        items.forEach(item => {
+            const link = item.querySelector('a');
+            const text = link.textContent.trim();
+
+            if (role === 'Trabajador') {
+                const allowed = ['Dashboard', 'Solicitudes'];
+                if (!allowed.includes(text)) item.style.display = 'none';
+            } else {
+                // Admin / Supervisor
+                if (text === 'Escanear QR') item.style.display = 'none';
+            }
+        });
+
+        // QR Button logic
+        if (btnScan) {
+            if (role === 'Trabajador') {
+                btnScan.style.display = 'flex';
+            } else {
+                btnScan.style.display = 'none';
+            }
+        }
+    }
+
+    // Logout Logic replacement for auth.logout
+    const logout = () => {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    };
 
     // Tab Switching
     const tabBtns = document.querySelectorAll('.profile-tab-btn');

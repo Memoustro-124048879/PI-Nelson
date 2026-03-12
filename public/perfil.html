@@ -83,230 +83,231 @@
                 </a>
             </li>
         </ul>
-    </aside>
+    </aside>    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper-centered">
+            <header class="page-header" style="margin-bottom: 2rem;">
+                <h1>Mi Perfil</h1>
+                <p>Gestione su información personal y preferencias</p>
+            </header>
 
-    <!-- Main Content -->
-    <main class="main-container">
-        <header class="page-header" style="margin-bottom: 2rem;">
-            <h1>Mi Perfil</h1>
-            <p>Gestione su información personal y preferencias</p>
-        </header>
-
-        <!-- Profile Header Card -->
-        <div class="profile-header-card">
-            <div class="profile-avatar-container">
-                <div class="profile-avatar">MT</div>
-                <div class="btn-edit-avatar">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            <!-- Profile Header Card -->
+            <div class="profile-header-card">
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar">MT</div>
+                    <div class="btn-edit-avatar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    </div>
+                </div>
+                <div class="profile-meta" style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h2 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 0.25rem;">Miguel Torres</h2>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">miguel.torres@automotive.com</p>
+                        </div>
+                        <span class="badge-status text-green bg-green-light" style="font-size: 0.75rem; padding: 0.25rem 0.75rem;">Trabajador</span>
+                    </div>
+                    <div style="display: flex; gap: 2.5rem; margin-top: 0.5rem;">
+                        <p style="color: var(--text-muted); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                            Producción - Línea A
+                        </p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            Operador de Producción
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="profile-meta" style="flex: 1;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <div>
-                        <h2 style="font-size: 1.5rem; color: var(--text-dark); margin-bottom: 0.25rem;">Miguel Torres</h2>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">miguel.torres@automotive.com</p>
-                    </div>
-                    <span class="badge-status text-green bg-green-light" style="font-size: 0.75rem; padding: 0.25rem 0.75rem;">Trabajador</span>
-                </div>
-                <div style="display: flex; gap: 2.5rem; margin-top: 0.5rem;">
-                    <p style="color: var(--text-muted); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                        Producción - Línea A
-                    </p>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        Operador de Producción
-                    </p>
-                </div>
+
+            <!-- Tabs Pill Navigation -->
+            <div class="profile-tabs-pill">
+                <button class="profile-tab-btn active" data-tab="personal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Información Personal
+                </button>
+                <button class="profile-tab-btn" data-tab="security">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    Seguridad
+                </button>
+                <button class="profile-tab-btn" data-tab="notifications">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    Notificaciones
+                </button>
             </div>
-        </div>
 
-        <!-- Tabs Pill Navigation -->
-        <div class="profile-tabs-pill">
-            <button class="profile-tab-btn active" data-tab="personal">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                Información Personal
-            </button>
-            <button class="profile-tab-btn" data-tab="security">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                Seguridad
-            </button>
-            <button class="profile-tab-btn" data-tab="notifications">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                Notificaciones
-            </button>
-        </div>
+            <!-- Content Area -->
+            <div class="section-box" style="padding: 2.5rem; min-height: 400px;">
+                <!-- Tab: Personal -->
+                <div id="tab-personal" class="tab-pane active">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+                        <h2 style="font-size: 1.25rem; color: var(--text-dark);">Datos Personales</h2>
+                        <button id="btnEditProfile" class="btn-secondary" style="width: auto; margin-top: 0; padding: 0.6rem 1.5rem; background: #f8fafc; border: 1px solid var(--border-color); font-weight: 600; cursor: pointer;">
+                            Editar
+                        </button>
+                    </div>
 
-        <!-- Content Area -->
-        <div class="section-box" style="padding: 2.5rem; min-height: 400px;">
-            <!-- Tab: Personal -->
-            <div id="tab-personal" class="tab-pane active">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
-                    <h2 style="font-size: 1.25rem; color: var(--text-dark);">Datos Personales</h2>
-                    <button id="btnEditProfile" class="btn-secondary" style="width: auto; margin-top: 0; padding: 0.6rem 1.5rem; background: #f8fafc; border: 1px solid var(--border-color); font-weight: 600; cursor: pointer;">
-                        Editar
-                    </button>
-                </div>
-
-                <div id="personalDisplay" class="info-display-grid">
-                    <div class="info-item">
-                        <label>Nombre Completo</label>
-                        <p>Miguel Torres</p>
-                    </div>
-                    <div class="info-item">
-                        <label>Correo Electrónico</label>
-                        <p>miguel.torres@automotive.com</p>
-                    </div>
-                    <div class="info-item">
-                        <label>Teléfono</label>
-                        <p>+52 555 123 4567</p>
-                    </div>
-                    <div class="info-item">
-                        <label>Departamento</label>
-                        <p>Producción - Línea A</p>
-                    </div>
-                    <div class="info-item">
-                        <label>Puesto</label>
-                        <p>Operador de Producción</p>
-                    </div>
-                    <div class="info-item">
-                        <label>Usuario</label>
-                        <p>worker</p>
-                    </div>
-                </div>
-
-                <!-- Form Edit (Hidden) -->
-                <form id="personalEditForm" style="display: none;">
-                    <div class="row-2">
-                        <div class="form-group">
+                    <div id="personalDisplay" class="info-display-grid">
+                        <div class="info-item">
                             <label>Nombre Completo</label>
-                            <input type="text" name="nombre" value="Miguel Torres" required>
+                            <p>Miguel Torres</p>
                         </div>
-                        <div class="form-group">
+                        <div class="info-item">
                             <label>Correo Electrónico</label>
-                            <input type="email" name="email" value="miguel.torres@automotive.com" required>
+                            <p>miguel.torres@automotive.com</p>
                         </div>
-                    </div>
-                    <div class="row-2" style="margin-top: 2rem;">
-                        <div class="form-group">
+                        <div class="info-item">
                             <label>Teléfono</label>
-                            <input type="text" name="telefono" value="+52 555 123 4567">
+                            <p>+52 555 123 4567</p>
                         </div>
-                        <div class="form-group">
+                        <div class="info-item">
                             <label>Departamento</label>
-                            <input type="text" name="departamento" value="Producción - Línea A" disabled style="background: #f8fafc;">
+                            <p>Producción - Línea A</p>
                         </div>
-                    </div>
-                    <div class="row-2" style="margin-top: 2rem;">
-                        <div class="form-group">
+                        <div class="info-item">
                             <label>Puesto</label>
-                            <input type="text" name="puesto" value="Operador de Producción" disabled style="background: #f8fafc;">
+                            <p>Operador de Producción</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Usuario</label>
+                            <p>worker</p>
+                        </div>
+                    </div>
+
+                    <!-- Form Edit (Hidden) -->
+                    <form id="personalEditForm" style="display: none;">
+                        <div class="row-2">
+                            <div class="form-group">
+                                <label>Nombre Completo</label>
+                                <input type="text" name="nombre" value="Miguel Torres" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Correo Electrónico</label>
+                                <input type="email" name="email" value="miguel.torres@automotive.com" required>
+                            </div>
+                        </div>
+                        <div class="row-2" style="margin-top: 2rem;">
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="text" name="telefono" value="+52 555 123 4567">
+                            </div>
+                            <div class="form-group">
+                                <label>Departamento</label>
+                                <input type="text" name="departamento" value="Producción - Línea A" disabled style="background: #f8fafc;">
+                            </div>
+                        </div>
+                        <div class="row-2" style="margin-top: 2rem;">
+                            <div class="form-group">
+                                <label>Puesto</label>
+                                <input type="text" name="puesto" value="Operador de Producción" disabled style="background: #f8fafc;">
+                            </div>
+                            <div class="form-group">
+                                <label>Usuario</label>
+                                <input type="text" name="usuario" value="worker" disabled style="background: #f8fafc;">
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 3rem;">
+                            <button type="button" id="btnCancelEdit" class="btn-secondary" style="width: auto; margin-top: 0; padding: 0.75rem 2rem;">Cancelar</button>
+                            <button type="submit" class="btn-login" style="width: auto; margin-top: 0; padding: 0.75rem 2rem; background: #0f172a; color: white; display: flex; align-items: center; gap: 0.5rem;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                Guardar Cambios
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tab: Seguridad -->
+                <div id="tab-security" class="tab-pane" style="display: none;">
+                    <h2 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.5rem;">Cambiar Contraseña</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2.5rem;">Actualice su contraseña periódicamente para mantener su cuenta segura</p>
+
+                    <form id="passwordForm" style="max-width: 500px;">
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label>Contraseña Actual</label>
+                            <div class="input-container" style="position: relative;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3y-3.5-3.5z"></path></svg>
+                                <input type="password" placeholder="••••••••" style="padding-left: 3rem;">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label>Nueva Contraseña</label>
+                            <div class="input-container" style="position: relative;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <input type="password" placeholder="••••••••" style="padding-left: 3rem;">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>Usuario</label>
-                            <input type="text" name="usuario" value="worker" disabled style="background: #f8fafc;">
+                            <label>Confirmar Nueva Contraseña</label>
+                            <div class="input-container" style="position: relative;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                <input type="password" placeholder="••••••••" style="padding-left: 3rem;">
+                            </div>
                         </div>
-                    </div>
-                    <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 3rem;">
-                        <button type="button" id="btnCancelEdit" class="btn-secondary" style="width: auto; margin-top: 0; padding: 0.75rem 2rem;">Cancelar</button>
-                        <button type="submit" class="btn-login" style="width: auto; margin-top: 0; padding: 0.75rem 2rem; background: #0f172a; color: white; display: flex; align-items: center; gap: 0.5rem;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                            Guardar Cambios
-                        </button>
-                    </div>
-                </form>
+
+                        <div class="security-alert">
+                            <h5>Requisitos de contraseña:</h5>
+                            <ul>
+                                <li>Mínimo 6 caracteres</li>
+                                <li>Se recomienda usar letras, números y símbolos</li>
+                                <li>Evite contraseñas comunes o fáciles de adivinar</li>
+                            </ul>
+                        </div>
+
+                        <div style="display: flex; justify-content: center; margin-top: 2rem;">
+                            <button type="submit" class="btn-update-pass">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                Actualizar Contraseña
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tab: Notificaciones -->
+                <div id="tab-notifications" class="tab-pane" style="display: none;">
+                    <h2 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.5rem;">Preferencias de Notificación</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2.5rem;">Configure cómo desea recibir notificaciones del sistema</p>
+
+                    <form id="notificationsForm" style="max-width: 800px;">
+                        <div class="notif-pref-card">
+                            <div class="notif-pref-info">
+                                <h5><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Notificaciones por Email</h5>
+                                <p>Reciba actualizaciones importantes por correo electrónico</p>
+                            </div>
+                            <label class="checkbox-container">
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <div class="notif-pref-card">
+                            <div class="notif-pref-info">
+                                <h5><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> Alertas de Solicitudes</h5>
+                                <p>Notificaciones sobre solicitudes pendientes o actualizadas</p>
+                            </div>
+                            <label class="checkbox-container">
+                                <input type="checkbox" checked>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <div class="notif-pref-card">
+                            <div class="notif-pref-info">
+                                <h5><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Recordatorios de Mantenimiento</h5>
+                                <p>Alertas sobre mantenimientos programados próximos</p>
+                            </div>
+                            <label class="checkbox-container">
+                                <input type="checkbox" checked>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end; margin-top: 3rem;">
+                            <button type="submit" class="btn-login" style="width: auto; margin-top: 0; padding: 0.75rem 2rem; background: #0f172a; color: white;">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <!-- Tab: Seguridad -->
-            <div id="tab-security" class="tab-pane" style="display: none;">
-                <h2 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.5rem;">Cambiar Contraseña</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2.5rem;">Actualice su contraseña periódicamente para mantener su cuenta segura</p>
-
-                <form id="passwordForm" style="max-width: 500px;">
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label>Contraseña Actual</label>
-                        <div class="input-container" style="position: relative;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3y-3.5-3.5z"></path></svg>
-                            <input type="password" placeholder="••••••••" style="padding-left: 3rem;">
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label>Nueva Contraseña</label>
-                        <div class="input-container" style="position: relative;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                            <input type="password" placeholder="••••••••" style="padding-left: 3rem;">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Confirmar Nueva Contraseña</label>
-                        <div class="input-container" style="position: relative;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                            <input type="password" placeholder="••••••••" style="padding-left: 3rem;">
-                        </div>
-                    </div>
-
-                    <div class="security-alert">
-                        <h5>Requisitos de contraseña:</h5>
-                        <ul>
-                            <li>Mínimo 6 caracteres</li>
-                            <li>Se recomienda usar letras, números y símbolos</li>
-                            <li>Evite contraseñas comunes o fáciles de adivinar</li>
-                        </ul>
-                    </div>
-
-                    <div style="display: flex; justify-content: center; margin-top: 2rem;">
-                        <button type="submit" class="btn-update-pass">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                            Actualizar Contraseña
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Tab: Notificaciones -->
-            <div id="tab-notifications" class="tab-pane" style="display: none;">
-                <h2 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.5rem;">Preferencias de Notificación</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2.5rem;">Configure cómo desea recibir notificaciones del sistema</p>
-
-                <form id="notificationsForm" style="max-width: 800px;">
-                    <div class="notif-pref-card">
-                        <div class="notif-pref-info">
-                            <h5><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> Notificaciones por Email</h5>
-                            <p>Reciba actualizaciones importantes por correo electrónico</p>
-                        </div>
-                        <label class="checkbox-container">
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-
-                    <div class="notif-pref-card">
-                        <div class="notif-pref-info">
-                            <h5><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg> Alertas de Solicitudes</h5>
-                            <p>Notificaciones sobre solicitudes pendientes o actualizadas</p>
-                        </div>
-                        <label class="checkbox-container">
-                            <input type="checkbox" checked>
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-
-                    <div class="notif-pref-card">
-                        <div class="notif-pref-info">
-                            <h5><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Recordatorios de Mantenimiento</h5>
-                            <p>Alertas sobre mantenimientos programados próximos</p>
-                        </div>
-                        <label class="checkbox-container">
-                            <input type="checkbox" checked>
-                            <span class="checkmark"></span>
-                        </label>
-                    </div>
-
-                    <div style="display: flex; justify-content: flex-end; margin-top: 3rem;">
-                        <button type="submit" class="btn-login" style="width: auto; margin-top: 0; padding: 0.75rem 2rem; background: #0f172a; color: white;">Guardar Cambios</button>
-                    </div>
-                </form>
-            </div>
+        </div>
         </div>
     </main>
 

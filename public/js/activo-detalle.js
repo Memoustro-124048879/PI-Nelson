@@ -44,12 +44,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Edit Button
+    const editBtn = document.querySelector('.btn-login'); // This is the "Editar Activo" button
+    const urlParams = new URLSearchParams(window.location.search);
+    const assetId = urlParams.get('id') || 'TQM-2024-001';
+
+    if (editBtn) {
+        editBtn.addEventListener('click', () => {
+            window.location.href = `activo-form.html?id=${assetId}`;
+        });
+    }
+
     // Logout
-    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutBtn = document.getElementById('btn-logout');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            logout();
+            auth.logout();
         });
     }
 });

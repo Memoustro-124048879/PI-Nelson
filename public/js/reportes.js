@@ -6,33 +6,89 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     
-    if (typeof loadSidebar === 'function') loadSidebar();
+    // 2. Set Profile
+    const userName = localStorage.getItem('user_name') || 'Usuario';
+    const userRole = localStorage.getItem('user_role') || 'Invitado';
 
-    // Mock Data
-    let reportesData = [
-        {
-            id: 1,
-            titulo: 'Reporte de Torquímetros SNAP-ON',
-            categoria: 'Mantenimiento',
-            fecha: '2026-02-18',
-            responsable: 'Miguel Torres',
-            estado: 'Pendiente',
-            urgencia: 'Media',
-            descripcion: 'Revisión y calibración de torquímetros digitales de la línea de ensamble principal.',
-            ubicacion: 'Planta Principal - Área de Ensamble'
-        },
-        {
-            id: 2,
-            titulo: 'Reporte de Escáner 3D FARO',
-            categoria: 'Solicitudes',
-            fecha: '2026-02-17',
-            responsable: 'Laura Gómez',
-            estado: 'Aprobada',
-            urgencia: 'Alta',
-            descripcion: 'Solicitud de movimiento de equipo de escaneo 3D al laboratorio de metrología.',
-            ubicacion: 'Laboratorio de Calidad'
+    // UI elements
+    const sidebarName = document.getElementById('sidebar-name');
+    const sidebarRole = document.getElementById('sidebar-role');
+    const sidebarAvatar = document.getElementById('sidebar-avatar');
+    const searchInput = document.querySelector('.search-box input');
+
+    if (sidebarName) sidebarName.textContent = userName;
+    if (sidebarRole) sidebarRole.textContent = userRole;
+    if (sidebarAvatar) sidebarAvatar.textContent = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+
+    // 3. Role-Based Sidebar Navigation
+    updateNavigation(userRole);
+
+    function updateNavigation(role) {
+        const navMenu = document.querySelector('.nav-menu');
+        const btnScan = document.getElementById('btn-scan');
+
+        // Nav items filtering
+        const items = navMenu.querySelectorAll('.nav-item');
+        items.forEach(item => {
+            const link = item.querySelector('a');
+            const text = link.textContent.trim();
+
+            if (role === 'Trabajador') {
+                const allowed = ['Dashboard', 'Solicitudes'];
+                if (!allowed.includes(text)) item.style.display = 'none';
+            } else {
+                // Admin / Supervisor
+                if (text === 'Escanear QR') item.style.display = 'none';
+            }
+        });
+
+        // QR Button logic
+        if (btnScan) {
+            if (role === 'Trabajador') {
+                btnScan.style.display = 'flex';
+            } else {
+                btnScan.style.display = 'none';
+            }
         }
-    ];
+    }
+
+    // Logout Logic
+    const logout = () => {
+        localStorage.clear();
+        window.location.href = 'login.html';
+    };
+
+    // Persistence: Load from localStorage or use initial mock
+    let storedReportes = localStorage.getItem('sigaf_reportes');
+    if (storedReportes) {
+        reportesData = JSON.parse(storedReportes);
+    } else {
+        reportesData = [
+            {
+                id: 1,
+                titulo: 'Reporte de Torquímetros SNAP-ON',
+                categoria: 'Mantenimiento',
+                fecha: '2026-02-18',
+                responsable: 'Miguel Torres',
+                estado: 'Pendiente',
+                urgencia: 'Media',
+                descripcion: 'Revisión y calibración de torquímetros digitales de la línea de ensamble principal.',
+                ubicacion: 'Planta Principal - Área de Ensamble'
+            },
+            {
+                id: 2,
+                titulo: 'Reporte de Escáner 3D FARO',
+                categoria: 'Solicitudes',
+                fecha: '2026-02-17',
+                responsable: 'Laura Gómez',
+                estado: 'Aprobada',
+                urgencia: 'Alta',
+                descripcion: 'Solicitud de movimiento de equipo de escaneo 3D al laboratorio de metrología.',
+                ubicacion: 'Laboratorio de Calidad'
+            }
+        ];
+        localStorage.setItem('sigaf_reportes', JSON.stringify(reportesData));
+    }
 
     // Selectors
     const newReportModal = document.getElementById('newReportModal');
@@ -124,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             reportesData.unshift(newReport); // Add to beginning
+            localStorage.setItem('sigaf_reportes', JSON.stringify(reportesData));
             renderReportes(); // Re-render
 
             ui.showToast('Reporte creado exitosamente', 'success');
