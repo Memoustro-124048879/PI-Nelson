@@ -31,16 +31,31 @@ async function logout() {
         console.warn('Logout request failed, clearing local token anyway');
     } finally {
         localStorage.removeItem('access_token');
-        window.location.href = 'index.html';
+        window.location.href = 'login.html';
     }
 }
 
-/**
- * Checks if user is logged in based on token existence
- * @returns {boolean}
- */
 function isAuthenticated() {
-    return localStorage.getItem('access_token') !== null;
+    return localStorage.getItem('access_token') !== null || localStorage.getItem('token') !== null;
+}
+
+const auth = {
+    isLoggedIn: isAuthenticated
+};
+
+function loadSidebar() {
+    const userName = localStorage.getItem('user_name') || 'Miguel Torres';
+    const userRole = localStorage.getItem('user_role') || 'Trabajador';
+    const sidebarName = document.getElementById('sidebar-name');
+    const sidebarRole = document.getElementById('sidebar-role');
+    const sidebarAvatar = document.getElementById('sidebar-avatar');
+
+    if(sidebarName) sidebarName.textContent = userName;
+    if(sidebarRole) sidebarRole.textContent = userRole;
+    if(sidebarAvatar) {
+        const initials = userName.split(' ').map(n=>n[0]).join('').substring(0, 2);
+        sidebarAvatar.textContent = initials.toUpperCase();
+    }
 }
 
 /**
@@ -48,7 +63,7 @@ function isAuthenticated() {
  */
 function checkAuth() {
     if (!isAuthenticated()) {
-        window.location.href = 'index.html';
+        window.location.href = 'login.html';
     }
 }
 

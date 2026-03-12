@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'login.html';
         return;
     }
+    
+    if (typeof loadSidebar === 'function') loadSidebar();
 
     // Tab Switching
     const tabBtns = document.querySelectorAll('.profile-tab-btn');
@@ -77,11 +79,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Logout
-    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutBtn = document.getElementById('btn-logout');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             logout();
+        });
+    }
+
+    // Scan Button
+    const btnScan = document.getElementById('btn-scan');
+    if (btnScan) {
+        btnScan.addEventListener('click', () => {
+            window.location.href = 'escanear.html';
         });
     }
 });

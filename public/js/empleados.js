@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'login.html';
         return;
     }
+    
+    if (typeof loadSidebar === 'function') loadSidebar();
 
     // Logout
     const logoutBtn = document.getElementById('logoutBtn');
