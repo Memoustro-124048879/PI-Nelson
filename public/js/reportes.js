@@ -128,74 +128,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function openReportDetail(reporte) {
-        document.getElementById('detailTitle').textContent = reporte.titulo;
-        document.querySelector('#reportDetailModal p:nth-of-type(1)').textContent = reporte.responsable || 'N/A';
-        document.querySelector('#reportDetailModal p:nth-of-type(2)').textContent = reporte.fecha;
-        document.querySelector('.text-orange').textContent = reporte.estado || 'Procesando';
-        document.querySelector('.priority-media').textContent = reporte.urgencia || 'Normal';
-        document.querySelector('.location-flow p:nth-of-type(1)').textContent = reporte.ubicacion || 'General';
-        
-        // Add description below the location-flow
-        const motivoP = document.querySelector('#reportDetailModal > div > div > p:last-of-type');
-        if(motivoP && motivoP.textContent.includes('Requerido')) {
-             motivoP.textContent = reporte.descripcion;
-        }
-
-        reportDetailModal.style.display = 'flex';
+        // Redirigir a la nueva vista de detalle pasando el ID en la URL
+        window.location.href = `reporte-detalle.html?id=${reporte.id}`;
     }
 
     // Initialize View
     renderReportes();
 
-    if (openNewReportBtn) {
-        openNewReportBtn.addEventListener('click', () => {
-            newReportModal.style.display = 'flex';
-        });
-    }
 
-    closeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            newReportModal.style.display = 'none';
-            reportDetailModal.style.display = 'none';
-        });
-    });
-
-    // Handle form submission
-    const newReportForm = document.getElementById('newReportForm');
-    if (newReportForm) {
-        newReportForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(newReportForm);
-            
-            const newReport = {
-                id: Date.now(),
-                titulo: formData.get('titulo'),
-                categoria: formData.get('categoria'),
-                fecha: formData.get('fecha'),
-                descripcion: formData.get('descripcion'),
-                responsable: formData.get('responsable') || localStorage.getItem('user_name') || 'Usuario',
-                ubicacion: formData.get('ubicacion') || 'General',
-                estado: 'Enviado',
-                urgencia: 'Normal'
-            };
-
-            reportesData.unshift(newReport); // Add to beginning
-            localStorage.setItem('sigaf_reportes', JSON.stringify(reportesData));
-            renderReportes(); // Re-render
-
-            ui.showToast('Reporte creado exitosamente', 'success');
-            setTimeout(() => {
-                newReportModal.style.display = 'none';
-                newReportForm.reset();
-            }, 500);
-        });
-    }
-
-    // Close on overlay
-    window.addEventListener('click', (e) => {
-        if (e.target === newReportModal) newReportModal.style.display = 'none';
-        if (e.target === reportDetailModal) reportDetailModal.style.display = 'none';
-    });
 
     // Logout
     const logoutBtn = document.getElementById('btn-logout');

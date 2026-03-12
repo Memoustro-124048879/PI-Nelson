@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGAF-QR | Nuevo Reporte</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h1>SIGAF-QR</h1>
+                <span>Gestión de Activos</span>
+            </div>
+        </div>
+
+        <div class="user-profile">
+            <div class="avatar" id="sidebar-avatar">MT</div>
+            <div class="user-info">
+                <h2 id="sidebar-name">Cargando...</h2>
+                <p id="sidebar-role">...</p>
+            </div>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="dashboard.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="activos.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"></path><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path></svg>
+                    Activos
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="solicitudes.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Solicitudes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="reportes.html" class="nav-link active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    Reportes
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="usuarios.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Empleados
+                </a>
+            </li>
+        </ul>
+
+        <button class="scan-btn" id="btn-scan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="12" x2="21" y2="12"></line></svg>
+            Escanear QR
+        </button>
+
+        <ul class="bottom-nav">
+            <li class="nav-item">
+                <a href="perfil.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Mi Perfil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" id="btn-logout" style="color: #ef4444;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Cerrar Sesión
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper-centered">
+            <header class="page-header" style="display: flex; align-items: flex-start; gap: 2rem;">
+                <a href="reportes.html" class="btn-volver">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"></path></svg>
+                    Volver
+                </a>
+                <div style="flex: 1;">
+                    <h1 id="pageTitle" style="margin-bottom: 0.25rem;">Nuevo Reporte</h1>
+                    <p>Complete la información para generar un reporte analítico detallado.</p>
+                </div>
+            </header>
+
+            <form id="newReportForm" style="max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+                
+                <section class="form-section" style="border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; margin-bottom: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem;">Información Básica</h3>
+                    <div class="form-group">
+                        <label>Título del Reporte <span>*</span></label>
+                        <div class="input-container">
+                            <input type="text" name="titulo" placeholder="Ej: Incidente de Mantenimiento - Compresor" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row-2" style="margin-top: 1.5rem;">
+                        <div class="form-group">
+                            <label>Categoría <span>*</span></label>
+                            <div class="input-container">
+                                <select name="categoria" required>
+                                    <option value="">Seleccione una categoría</option>
+                                    <option value="Solicitudes">Solicitudes</option>
+                                    <option value="Mantenimiento">Mantenimiento</option>
+                                    <option value="Movimientos">Movimientos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha del Reporte <span>*</span></label>
+                            <div class="input-container">
+                                <input type="date" name="fecha" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label>Descripción <span>*</span></label>
+                        <div class="input-container">
+                            <textarea name="descripcion" placeholder="Describa detalladamente el contenido del reporte..." style="height: 100px; font-family: inherit; resize: none; padding: 1rem; width: 100%; border: none; outline: none; border-radius: 8px; font-size: 0.95rem; color: var(--text-dark);" required></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section" style="border: none; padding: 0; margin-bottom: 0;">
+                    <h3 style="margin-bottom: 1.5rem;">Detalles Adicionales</h3>
+                    <div class="row-2">
+                        <div class="form-group">
+                            <label>Reportado Por / Adquirido Por</label>
+                            <div class="input-container">
+                                <input type="text" name="responsable" placeholder="Nombre del responsable">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Ubicación</label>
+                            <div class="input-container">
+                                <input type="text" name="ubicacion" placeholder="Ej: Planta Principal - Área de Pr">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-2" style="margin-top: 1.5rem;">
+                        <div class="form-group">
+                            <label>Costo Asociado (MXN)</label>
+                            <div class="input-container">
+                                <input type="number" name="costo" placeholder="0.00">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Notas Adicionales</label>
+                            <div class="input-container">
+                                <input type="text" name="notas" placeholder="Información complementaria">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <button type="button" class="btn-secondary" onclick="window.location.href='reportes.html'" style="width: auto; padding: 0.75rem 2.5rem; margin-top: 0; background: white; border: 1px solid var(--border-color);">Cancelar</button>
+                    <button type="submit" class="btn-login" style="width: auto; margin-top: 0; padding: 0.75rem 2.5rem; background: #0f172a; color: white;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem; vertical-align: text-bottom;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Crear Reporte
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Core Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/reporte-form.js"></script>
+</body>
+</html>
