@@ -59,35 +59,28 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Persistence: Load from localStorage or use initial mock
-    let storedReportes = localStorage.getItem('sigaf_reportes');
-    if (storedReportes) {
-        reportesData = JSON.parse(storedReportes);
-    } else {
-        reportesData = [
-            {
-                id: 1,
-                titulo: 'Reporte de Torquímetros SNAP-ON',
-                categoria: 'Mantenimiento',
-                fecha: '2026-02-18',
-                responsable: 'Miguel Torres',
-                estado: 'Pendiente',
-                urgencia: 'Media',
-                descripcion: 'Revisión y calibración de torquímetros digitales de la línea de ensamble principal.',
-                ubicacion: 'Planta Principal - Área de Ensamble'
-            },
-            {
-                id: 2,
-                titulo: 'Reporte de Escáner 3D FARO',
-                categoria: 'Solicitudes',
-                fecha: '2026-02-17',
-                responsable: 'Laura Gómez',
-                estado: 'Aprobada',
-                urgencia: 'Alta',
-                descripcion: 'Solicitud de movimiento de equipo de escaneo 3D al laboratorio de metrología.',
-                ubicacion: 'Laboratorio de Calidad'
-            }
-        ];
-        localStorage.setItem('sigaf_reportes', JSON.stringify(reportesData));
+    let reportesData = [];
+
+    async function fetchReportes() {
+        try {
+            const rawData = await apiFetch('/reportes');
+            reportesData = rawData.map(r => ({
+                id: r.id,
+                titulo: r.titulo,
+                categoria: r.tipo,
+                fecha: r.fecha,
+                estado: r.estado,
+                urgencia: r.gravedad || 'Media',
+                descripcion: r.notas,
+                ubicacion: r.ubicacion_evento,
+                activo_id: r.activo_id,
+                activo_nombre: r.activo ? r.activo.nombre : 'N/A'
+            }));
+            renderReportes();
+        } catch (e) {
+            console.error('Error cargando reportes:', e);
+            if (typeof ui !== 'undefined') ui.showToast('Error de red', 'error');
+        }
     }
 
     // Selectors
@@ -133,9 +126,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize View
-    renderReportes();
+    fetchReportes();
 
+    // Export Logic
+    const exportBtns = document.querySelectorAll('.btn-secondary');
+    
+    // PDF exports (buttons at indices 0, 2, 4)
+    [0, 2, 4].forEach(i => {
+        if(exportBtns[i]) {
+            exportBtns[i].addEventListener('click', () => exportToPDF());
+        }
+    });
 
+    // Excel/CSV exports (buttons at indices 1, 3, 5)
+    [1, 3, 5].forEach(i => {
+        if(exportBtns[i]) {
+            exportBtns[i].addEventListener('click', () => exportToCSV());
+        }
+    });
+
+    function exportToPDF() {
+        if (typeof window.jspdf === 'undefined') {
+            if(typeof ui !== 'undefined') ui.showToast('Librería PDF no cargada', 'error');
+            return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('landscape');
+        doc.setFontSize(18);
+        doc.text('Reportes Generales - SIGAF', 14, 22);
+        doc.setFontSize(11);
+        doc.setTextColor(100);
+        doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 14, 30);
+
+        const tableColumn = ["ID", "TÍTULO", "TIPO", "FECHA", "ESTADO", "ACTIVO"];
+        const tableRows = [];
+
+        reportesData.forEach(r => {
+            tableRows.push([
+                r.id, r.titulo, r.categoria, r.fecha, r.estado, r.activo_nombre
+            ]);
+        });
+
+        doc.autoTable({
+            head: [tableColumn],
+            body: tableRows,
+            startY: 35,
+            styles: { fontSize: 9 },
+            headStyles: { fillColor: [15, 23, 42] }
+        });
+
+        doc.save(`SIGAF_Reportes_${new Date().getTime()}.pdf`);
+    }
+
+    function exportToCSV() {
+        const headers = ["ID", "TÍTULO", "TIPO", "FECHA", "ESTADO", "ACTIVO"];
+        let csvContent = headers.join(",") + "\n";
+        
+        reportesData.forEach(r => {
+            const row = [r.id, `"${r.titulo}"`, `"${r.categoria}"`, r.fecha, r.estado, `"${r.activo_nombre}"`];
+            csvContent += row.join(",") + "\n";
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `SIGAF_Reportes_${new Date().getTime()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 
     // Logout
     const logoutBtn = document.getElementById('btn-logout');

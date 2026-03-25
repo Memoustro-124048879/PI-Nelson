@@ -12,7 +12,11 @@ async function login(email, password) {
 
         if (response.access_token) {
             localStorage.setItem('access_token', response.access_token);
-            // Redirect to dashboard
+            if(response.user) {
+                localStorage.setItem('user_name', response.user.name);
+                localStorage.setItem('user_role', response.user.role);
+                localStorage.setItem('user_email', response.user.email);
+            }
             window.location.href = 'dashboard.html';
         }
         return response;
@@ -31,6 +35,10 @@ async function logout() {
         console.warn('Logout request failed, clearing local token anyway');
     } finally {
         localStorage.removeItem('access_token');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user_name');
+        localStorage.removeItem('user_role');
+        localStorage.removeItem('user_email');
         window.location.href = 'login.html';
     }
 }

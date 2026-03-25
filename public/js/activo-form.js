@@ -30,43 +30,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            const submitBtn = assetForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn ? submitBtn.innerHTML : 'Guardar';
+            if (submitBtn) {
+                submitBtn.innerHTML = 'Cargando...';
+                submitBtn.disabled = true;
+            }
+
             try {
-                // Mock Persistence using localStorage
-                let assetsFromStorage = localStorage.getItem('sigaf_assets');
-                let assets = assetsFromStorage ? JSON.parse(assetsFromStorage) : [];
-                
+                // Map frontend data structure to backend expected fields
+                const payload = {
+                    ...data,
+                    // If backend expects specific ints for category:
+                    categoria_id: parseInt(data.categoria_id) || null
+                };
+
+                let response;
                 if (assetId) {
-                    // Update existing
-                    const index = assets.findIndex(a => a.id === assetId);
-                    if (index !== -1) {
-                        assets[index] = {
-                            ...assets[index],
-                            ...data,
-                            id: data.codigo // Keep consistency with form code
-                        };
-                    }
+                    response = await apiFetch(`/activos/${assetId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify(payload)
+                    });
                 } else {
-                    // Create new
-                    const newAsset = {
-                        id: data.codigo,
-                        nombre: data.nombre,
-                        modelo: data.modelo,
-                        categoria: data.categoria_id === '1' ? 'Herramientas' : 
-                                   data.categoria_id === '2' ? 'Maquinaria' : 
-                                   data.categoria_id === '3' ? 'Vehículos' : 
-                                   data.categoria_id === '4' ? 'Equipos' : 'Mobiliario',
-                        serie: data.numero_serie,
-                        ubicacion: data.ubicacion,
-                        departamento: data.departamento,
-                        estado: data.estado,
-                        responsable: data.responsable
-                    };
-                    assets.push(newAsset);
+                    response = await apiFetch('/activos', {
+                        method: 'POST',
+                        body: JSON.stringify(payload)
+                    });
                 }
 
-                localStorage.setItem('sigaf_assets', JSON.stringify(assets));
-
-                // UI Feedback
                 if (typeof ui !== 'undefined') ui.showToast(assetId ? 'Activo actualizado' : 'Activo creado correctamente', 'success');
                 
                 setTimeout(() => {
@@ -74,7 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 1000);
             } catch (err) {
                 console.error('Error saving asset:', err);
-                if (typeof ui !== 'undefined') ui.showToast('Error al guardar el activo', 'error');
+                if (typeof ui !== 'undefined') {
+                    ui.showToast('Error al guardar el activo', 'error');
+                } else {
+                    alert('Error al guardar el activo');
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
             }
         });
     }

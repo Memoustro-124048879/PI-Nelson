@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default('TRABAJADOR');
+            $table->foreignId('area_id')->nullable()->constrained('areas')->onDelete('set null');
+            $table->string('estado')->default('Activo');
             $table->rememberToken();
             $table->timestamps();
         });

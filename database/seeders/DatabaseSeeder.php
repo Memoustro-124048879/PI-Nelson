@@ -15,11 +15,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $area = \App\Models\Area::create(['nombre' => 'Central']);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        User::create([
+            'name' => 'Admin SIGAF',
+            'email' => 'Admin@sigaf.com',
+            'password' => hash('sha256', 'demo123'),
+            'role' => 'ADMIN',
+            'area_id' => null,
+            'estado' => 'activo'
+        ]);
+
+        User::create([
+            'name' => 'Supervisor SIGAF',
+            'email' => 'Supervisor@sigaf.com',
+            'password' => hash('sha256', 'demo123'),
+            'role' => 'SUPERVISOR',
+            'area_id' => $area->id,
+            'estado' => 'activo'
+        ]);
+
+        User::create([
+            'name' => 'Trabajador SIGAF',
+            'email' => 'Trabajador@sigaf.com',
+            'password' => hash('sha256', 'demo123'),
+            'role' => 'TRABAJADOR',
+            'area_id' => $area->id,
+            'estado' => 'activo'
         ]);
     }
 }

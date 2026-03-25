@@ -144,18 +144,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function initUsers() {
-        let stored = localStorage.getItem('sigaf_users');
-        if (stored) {
-            usersData = JSON.parse(stored);
-        } else {
-            usersData = [
-                { id: 1, nombre: 'Miguel Torres', email: 'miguel.torres@automotive.com', departamento: 'Producción - Línea A', rol: 'Trabajador' },
-                { id: 2, nombre: 'Roberto Sánchez', email: 'roberto.sanchez@automotive.com', departamento: 'Almacén', rol: 'Trabajador' }
-            ];
-            localStorage.setItem('sigaf_users', JSON.stringify(usersData));
+    async function initUsers() {
+        try {
+            usersData = await apiFetch('/usuarios');
+            // Mapping backend fields to frontend format
+            usersData = usersData.map(u => ({
+                id: u.id,
+                nombre: u.name,
+                email: u.email,
+                departamento: (u.area_id ? 'Área ' + u.area_id : 'Global'), 
+                rol: u.role
+            }));
+            renderUsers();
+        } catch (e) {
+            showToast('Error cargando usuarios', 'error');
         }
-        renderUsers();
     }
 
     // Modal Events
@@ -172,22 +175,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (newEmployeeForm) {
-        newEmployeeForm.addEventListener('submit', (e) => {
+        newEmployeeForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const formData = new FormData(newEmployeeForm);
-            const newUser = {
-                id: Date.now(),
-                nombre: formData.get('nombre'),
-                email: formData.get('email'),
-                departamento: formData.get('departamento'),
-                rol: formData.get('rol')
-            };
-            usersData.push(newUser);
-            localStorage.setItem('sigaf_users', JSON.stringify(usersData));
-            renderUsers();
-            showToast('Empleado añadido exitosamente', 'success');
-            newEmployeeModal.style.display = 'none';
-            newEmployeeForm.reset();
+            const btn = newEmployeeForm.querySelector('button[type="submit"]');
+            const originalText = btn ? btn.innerHTML : 'Guardar';
+            if (btn) btn.innerHTML = 'Cargando...';
+
+            try {
+                const formData = new FormData(newEmployeeForm);
+                const payload = {
+                    name: formData.get('nombre'),
+                    email: formData.get('email'),
+                    password: 'demo123', // Default
+                    role: formData.get('rol').toUpperCase() === 'ADMIN' ? 'ADMIN' : (formData.get('rol').toUpperCase() === 'SUPERVISOR' ? 'SUPERVISOR' : 'TRABAJADOR'),
+                    estado: 'activo'
+                };
+
+                await apiFetch('/usuarios', { method: 'POST', body: JSON.stringify(payload) });
+                
+                showToast('Empleado añadido exitosamente', 'success');
+                newEmployeeModal.style.display = 'none';
+                newEmployeeForm.reset();
+                initUsers();
+            } catch (err) {
+                showToast('Error al añadir empleado', 'error');
+            } finally {
+                if (btn) btn.innerHTML = originalText;
+            }
         });
     }
 

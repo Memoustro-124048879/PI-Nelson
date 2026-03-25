@@ -56,32 +56,57 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'login.html';
     };
 
-    // Mock Data for Activos (Initial Data)
-    const initialActivosData = [
-        { id: 'TQM-2024-001', nombre: 'Torquímetro Digital SNAP-ON', modelo: 'SNAP-ON ATECH3FR250B', categoria: 'Herramientas', serie: 'SN-TQ-457821', ubicacion: 'Planta Principal - Área de Ensamble', departamento: 'Producción', estado: 'En Uso', responsable: 'Miguel Torres' },
-        { id: 'PG-5T-98741', nombre: 'Puente Grúa 5 Toneladas', modelo: 'DEMAG DC-COM 5-500', categoria: 'Maquinaria', serie: 'PG-5T-98741', ubicacion: 'Planta Principal - Almacén Central', departamento: 'Logística', estado: 'Disponible', responsable: 'José Ramírez' },
-        { id: 'COMP-2024-05', nombre: 'Compresor de Aire Ingersoll Rand', modelo: 'UP6-15c TAS', categoria: 'Equipos', serie: 'IR-CP-112233', ubicacion: 'Cuarto de Máquinas', departamento: 'Mantenimiento', estado: 'Mantenimiento', responsable: 'Carlos Vargas' },
-        { id: 'LAP-DEV-001', nombre: 'Laptop Dell XPS 15', modelo: 'Precision 5550', categoria: 'TI', serie: 'DL-XPS-9988', ubicacion: 'Oficinas Administrativas', departamento: 'Sistemas', estado: 'En Uso', responsable: 'Ana Rodríguez' },
-        { id: 'IMP-3D-002', nombre: 'Impresora 3D Stratasys', modelo: 'F123 Series', categoria: 'Equipos', serie: 'ST-3D-4455', ubicacion: 'Laboratorio de Prototipos', departamento: 'Ingeniería', estado: 'Disponible', responsable: 'Luis Pérez' },
-        { id: 'VEH-2024-018', nombre: 'Montacargas Eléctrico YALE', modelo: 'ERP15-30VT', categoria: 'Vehículos', serie: 'YL-MT-7766', ubicacion: 'Almacén de Materia Prima', departamento: 'Logística', estado: 'En Uso', responsable: 'Roberto Sánchez' },
-        { id: 'ESC-3D-001', nombre: 'Escáner 3D FARO', modelo: 'Quantum Max', categoria: 'Instrumentos', serie: 'FR-SC-2233', ubicacion: 'Laboratorio de Calidad', departamento: 'Calidad', estado: 'Mantenimiento', responsable: 'Laura Gómez' },
-        { id: 'SOLD-TIG-003', nombre: 'Máquina Soldadora TIG Miller', modelo: 'Syncrowave 210', categoria: 'Maquinaria', serie: 'ML-TG-5544', ubicacion: 'Taller de Soldadura', departamento: 'Mantenimiento', estado: 'Disponible', responsable: 'Carlos Vargas' }
-    ];
+    // Fetch Data from API
+    let activosData = [];
 
-    // Load from localStorage or initialize
-    let assetsFromStorage = localStorage.getItem('sigaf_assets');
-    let activosData = assetsFromStorage ? JSON.parse(assetsFromStorage) : initialActivosData;
-
-    // Save if not initialized
-    if (!assetsFromStorage) {
-        localStorage.setItem('sigaf_assets', JSON.stringify(activosData));
+    async function fetchActivos() {
+        try {
+            activosData = await apiFetch('/activos');
+            renderActivos();
+        } catch (e) {
+            if (typeof ui !== 'undefined') ui.showToast('Error conectando al servidor', 'error');
+        }
     }
 
-    // Export variables if needed or just use locally
-    window.saveActivos = (data) => {
-        localStorage.setItem('sigaf_assets', JSON.stringify(data));
-        activosData = data;
-    };
+    const exportBtn = document.querySelector('.page-header .btn-secondary');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+            if (typeof window.jspdf === 'undefined') return alert('Librería PDF no cargada');
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+            
+            doc.setFontSize(18);
+            doc.text('Reporte General de Activos Fijos - SIGAF', 14, 22);
+            doc.setFontSize(11);
+            doc.setTextColor(100);
+            doc.text(`Fecha de generación: ${new Date().toLocaleDateString()}`, 14, 30);
+
+            const tableColumn = ["CÓDIGO QR", "NOMBRE / MODELO", "CATEGORÍA", "SERIE", "UBICACIÓN", "ESTADO"];
+            const tableRows = [];
+
+            activosData.forEach(asset => {
+                const assetData = [
+                    asset.qr_code || asset.id,
+                    `${asset.nombre}\n${asset.modelo || ''}`,
+                    asset.categoria_id || asset.categoria || '-',
+                    asset.numero_serie || asset.serie || '-',
+                    asset.area ? asset.area.nombre : (asset.ubicacion || '-'),
+                    asset.estado || 'Disponible',
+                ];
+                tableRows.push(assetData);
+            });
+
+            doc.autoTable({
+                head: [tableColumn],
+                body: tableRows,
+                startY: 35,
+                styles: { fontSize: 9 },
+                headStyles: { fillColor: [15, 23, 42] }
+            });
+
+            doc.save(`SIGAF_Activos_${new Date().toISOString().split('T')[0]}.pdf`);
+        });
+    }
 
     const tableBody = document.getElementById('assetsTableBody');
     const qrModal = document.getElementById('qrModal');
@@ -107,35 +132,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         tableBody.innerHTML = filtered.map(a => {
+            const estado = a.estado || 'Disponible';
             let badgeStyle = '';
-            if (a.estado === 'En Uso') badgeStyle = 'background: #e0e7ff; color: #3730A3;';
-            else if (a.estado === 'Disponible') badgeStyle = 'background: #dcfce7; color: #166534;';
-            else if (a.estado === 'Mantenimiento') badgeStyle = 'background: #fef9c3; color: #854d0e;';
+            if (estado === 'En Uso') badgeStyle = 'background: #e0e7ff; color: #3730A3;';
+            else if (estado === 'Disponible') badgeStyle = 'background: #dcfce7; color: #166534;';
+            else if (estado === 'Mantenimiento') badgeStyle = 'background: #fef9c3; color: #854d0e;';
+
+            // Backend fields logic handling
+            const qrCode = a.qr_code || a.id;
+            const nombre = a.nombre || 'Sin nombre';
+            const modelo = a.modelo || '';
+            const categoria = a.categoria_id || a.categoria || '-';
+            const serie = a.numero_serie || a.serie || '-';
+            const ubicacion = a.area ? a.area.nombre : (a.ubicacion || '-');
+            const responsable = a.responsable || '-';
 
             return `
             <tr style="border-bottom: 1px solid var(--border-color);">
                 <td class="qr-cell" style="padding: 1rem; text-align: center;">
-                    <button class="btn-qr" data-id="${a.id}" data-nombre="${a.nombre}" style="background: none; border: none; cursor: pointer; color: var(--text-main);">
+                    <button class="btn-qr" data-id="${qrCode}" data-nombre="${nombre}" style="background: none; border: none; cursor: pointer; color: var(--text-main);">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><rect x="7" y="7" width="3" height="3"></rect><rect x="14" y="7" width="3" height="3"></rect><rect x="7" y="14" width="3" height="3"></rect><rect x="14" y="14" width="3" height="3"></rect></svg>
                     </button>
                 </td>
                 <td style="padding: 1rem;">
-                    <div style="font-weight: 600; color: var(--text-main); font-size: 0.95rem;">${a.nombre}</div>
-                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">${a.modelo}</div>
+                    <div style="font-weight: 600; color: var(--text-main); font-size: 0.95rem;">${nombre}</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">${modelo}</div>
                 </td>
-                <td style="padding: 1rem; font-size: 0.9rem; color: var(--text-main);">${a.categoria}</td>
-                <td style="padding: 1rem; font-size: 0.9rem; color: var(--text-main);">${a.serie}</td>
+                <td style="padding: 1rem; font-size: 0.9rem; color: var(--text-main);">${categoria}</td>
+                <td style="padding: 1rem; font-size: 0.9rem; color: var(--text-main);">${serie}</td>
                 <td style="padding: 1rem;">
-                    <div style="font-size: 0.85rem; color: var(--text-main);">${a.ubicacion}</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem;">${a.departamento}</div>
+                    <div style="font-size: 0.85rem; color: var(--text-main);">${ubicacion}</div>
                 </td>
                 <td style="padding: 1rem;">
-                    <span class="badge" style="padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; ${badgeStyle}">${a.estado}</span>
+                    <span class="badge" style="padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; ${badgeStyle}">${estado}</span>
                 </td>
-                <td style="padding: 1rem; font-size: 0.9rem; color: var(--text-main);">${a.responsable}</td>
+                <td style="padding: 1rem; font-size: 0.9rem; color: var(--text-main);">${responsable}</td>
                 <td style="padding: 1rem; text-align: right;">
                     <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-                        <a href="activo-detalle.html?id=${a.id}" style="color: var(--text-muted); padding: 0.4rem; border-radius: 6px;" title="Ver Detalle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></a>
+                        <a href="activo-detalle.html?id=${qrCode}" style="color: var(--text-muted); padding: 0.4rem; border-radius: 6px;" title="Ver Detalle"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></a>
                         <a href="activo-form.html?id=${a.id}" style="color: var(--text-muted); padding: 0.4rem; border-radius: 6px;" title="Editar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a>
                         <button onclick="deleteAsset('${a.id}')" style="background: none; border: none; cursor: pointer; color: #ef4444; padding: 0.4rem; border-radius: 6px;" title="Eliminar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
                     </div>
@@ -165,22 +199,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Make globally available
-    window.deleteAsset = (id) => {
+    window.deleteAsset = async (id) => {
         if (confirm('¿Está seguro de que desea eliminar este activo?')) {
-            activosData = activosData.filter(a => a.id !== id);
-            window.saveActivos(activosData); // Use window.saveActivos and pass data
-            renderActivos();
-            // Assuming 'ui' object with 'showToast' method exists globally or is defined elsewhere
-            if (typeof ui !== 'undefined' && ui.showToast) {
-                ui.showToast('Activo eliminado exitosamente', 'success');
-            } else {
-                console.log('Activo eliminado exitosamente');
+            try {
+                await apiFetch(`/activos/${id}`, { method: 'DELETE' });
+                activosData = activosData.filter(a => a.id != id);
+                renderActivos();
+                if (typeof ui !== 'undefined' && ui.showToast) {
+                    ui.showToast('Activo eliminado exitosamente', 'success');
+                }
+            } catch (err) {
+                if (typeof ui !== 'undefined') ui.showToast('Error al eliminar', 'error');
             }
         }
     };
 
-    renderActivos();
+    fetchActivos();
 
     // Filter Buttons logic
     filterTabs.forEach(btn => {
@@ -206,6 +240,49 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.addEventListener('input', (e) => {
             const activeFilter = document.querySelector('.tab-btn.active').textContent.trim();
             renderActivos(activeFilter, e.target.value);
+        });
+    }
+
+    // Modal QR Print/Download logic
+    const btnPrintQr = document.getElementById('btn-print-qr');
+    const btnDownloadQr = document.getElementById('btn-download-qr-modal');
+
+    if (btnPrintQr) {
+        btnPrintQr.addEventListener('click', () => {
+            const qrImg = qrModal.querySelector('img').src;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`<html><body style="display:flex;justify-content:center;align-items:center;height:100vh;margin:0;"><img src="${qrImg}" style="width: 300px; height: 300px;" /></body></html>`);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
+        });
+    }
+
+    if (btnDownloadQr) {
+        btnDownloadQr.addEventListener('click', async () => {
+            try {
+                btnDownloadQr.innerHTML = 'Descargando...';
+                const id = assetCodeModal.textContent;
+                const hrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=${id}&format=png`;
+                const res = await fetch(hrUrl, { mode: 'cors' });
+                if(!res.ok) throw new Error('Network');
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `SIGAF-QR-${id}.png`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+            } catch(e) {
+                console.warn('CORS blocked QR fetch, opening in new tab instead.');
+                const hrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=${assetCodeModal.textContent}&format=png`;
+                window.open(hrUrl, '_blank');
+            } finally {
+                btnDownloadQr.innerHTML = 'Descargar';
+            }
         });
     }
 

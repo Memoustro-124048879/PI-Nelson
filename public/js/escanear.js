@@ -1,13 +1,6 @@
 // public/js/escanear.js
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Auth Check
-    const token = localStorage.getItem('token') || 'mock_token'; 
-    /* 
-    if (!localStorage.getItem('token')) {
-        window.location.href = 'login.html';
-        return;
-    }
-    */
+    if (typeof checkAuth !== 'undefined') checkAuth();
 
     const headers = {
         'Content-Type': 'application/json',
@@ -60,31 +53,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Logout Logic
-    document.getElementById('btn-logout').addEventListener('click', (e) => {
-        e.preventDefault();
-        localStorage.clear();
-        window.location.href = 'login.html';
-    });
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout) {
+        btnLogout.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (typeof logout !== 'undefined') {
+                logout();
+            } else {
+                localStorage.clear();
+                window.location.href = 'login.html';
+            }
+        });
+    }
 
     // 3. Camera Modal
     const modalCamera = document.getElementById('camera-modal');
     const btnOpenCamera = document.getElementById('btn-open-camera');
     const btnCloseCamera = document.getElementById('btn-close-camera');
     const btnCancelCamera = document.getElementById('btn-cancel-camera');
-    const btnStartScan = document.getElementById('btn-start-scan');
 
-    const closeCameraModal = () => modalCamera.classList.remove('active');
+    let html5QrcodeScanner = null;
 
-    btnOpenCamera.addEventListener('click', () => modalCamera.classList.add('active'));
-    btnCloseCamera.addEventListener('click', closeCameraModal);
-    btnCancelCamera.addEventListener('click', closeCameraModal);
+    const closeCameraModal = () => {
+        modalCamera.classList.remove('active');
+        if (html5QrcodeScanner) {
+            html5QrcodeScanner.clear().catch(error => console.error("Failed to clear scanner", error));
+            html5QrcodeScanner = null;
+        }
+    };
 
-    btnStartScan.addEventListener('click', () => {
-        // Simular escaneo de QR y redirección
-        alert('Simulando escaneo...\nRedirigiendo al detalle del activo...');
+    function onScanSuccess(decodedText) {
         closeCameraModal();
-        // window.location.href = 'activo-detalle.html?id=QR-TQM-2024-001';
+        window.location.href = `activo-detalle.html?id=${encodeURIComponent(decodedText)}`;
+    }
+
+    btnOpenCamera.addEventListener('click', () => {
+        modalCamera.classList.add('active');
+        html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", { fps: 10, qrbox: { width: 250, height: 250 } }
+        );
+        html5QrcodeScanner.render(onScanSuccess, undefined);
     });
+
+    btnCloseCamera.addEventListener('click', closeCameraModal);
+    if(btnCancelCamera) btnCancelCamera.addEventListener('click', closeCameraModal);
 
     // 4. Manual Search Form
     const manualForm = document.getElementById('manual-search-form');

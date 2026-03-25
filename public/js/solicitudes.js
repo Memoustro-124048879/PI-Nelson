@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnCancel.addEventListener('click', (e) => { e.preventDefault(); closeModal(); });
 
     // 4. Submit Request
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const activo_id        = document.getElementById('activo_id').value;
@@ -97,43 +97,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const motivo           = document.getElementById('motivo').value;
 
         // Basic validation
-        if (!activo_id || !fecha_programada || !responsable || !ubicacion || !motivo) {
+        if (!activo_id || !ubicacion || !motivo) {
             alert('Por favor complete todos los campos obligatorios.');
             return;
         }
 
-        // Load current list
-        const stored = localStorage.getItem('sigaf_solicitudes');
-        solicitudesData = stored ? JSON.parse(stored) : [];
+        const btn = form.querySelector('button[type="submit"]');
+        const textBtn = btn ? btn.innerHTML : 'Guardar';
+        if (btn) btn.innerHTML = 'Enviando...';
 
-        // Build new entry
-        const now = new Date();
-        const newSolicitud = {
-            id: Date.now(),
-            activo: activo_id,
-            estado: 'Pendiente', estadoClass: 'badge-pending',
-            urgencia: urgencia,
-            urgenciaClass: urgencia === 'Alta' ? 'badge-high' : (urgencia === 'Baja' ? 'badge-low' : 'badge-medium'),
-            solicitado_por: localStorage.getItem('user_name') || 'Usuario',
-            fecha_solicitud: now.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-            fecha_programada: fecha_programada,
-            realizara_cambio: responsable,
-            ubicacion_actual: 'N/A',
-            nueva_ubicacion: ubicacion,
-            motivo: motivo,
-            progress: 1
-        };
+        try {
+            const payload = {
+                activo_id: activo_id,
+                ubicacion_destino: ubicacion,
+                urgencia: urgencia,
+                motivo: motivo
+            };
 
-        solicitudesData.unshift(newSolicitud);
-        localStorage.setItem('sigaf_solicitudes', JSON.stringify(solicitudesData));
-
-        // Safe toast
-        if (typeof ui !== 'undefined' && ui.showToast) {
-            ui.showToast('Solicitud enviada exitosamente', 'success');
+            await apiFetch('/solicitudes', { method: 'POST', body: JSON.stringify(payload) });
+            
+            if (typeof ui !== 'undefined' && ui.showToast) {
+                ui.showToast('Solicitud enviada exitosamente', 'success');
+            }
+            closeModal();
+            loadSolicitudes();
+        } catch (err) {
+            if (typeof ui !== 'undefined') ui.showToast('Error de conexión', 'error');
+        } finally {
+            if (btn) btn.innerHTML = textBtn;
         }
-
-        renderSolicitudes();
-        closeModal();
     });
 
 
@@ -164,89 +156,62 @@ document.addEventListener('DOMContentLoaded', () => {
     let solicitudesData = [];
 
     async function loadSolicitudes() {
+        // Options for Activo
         try {
-            // Persistence: Load assets for the select dropdown
             const selectActivo = document.getElementById('activo_id');
             if (selectActivo) {
-                const storedAssets = localStorage.getItem('sigaf_assets');
-                if (storedAssets) {
-                    const assets = JSON.parse(storedAssets);
-                    assets.forEach(asset => {
-                        const opt = document.createElement('option');
-                        opt.value = asset.nombre;
-                        opt.textContent = `${asset.id} - ${asset.nombre}`;
-                        selectActivo.appendChild(opt);
-                    });
-                }
+                const assets = await apiFetch('/activos');
+                assets.forEach(asset => {
+                    const opt = document.createElement('option');
+                    opt.value = asset.id;
+                    opt.textContent = `${asset.qr_code || asset.id} - ${asset.nombre}`;
+                    selectActivo.appendChild(opt);
+                });
             }
+        } catch (e) {
+            console.warn('Could not load assets for select dropdown');
+        }
 
-            // Populate responsable_cambio dropdown from employees
+        // Options for users
+        try {
             const selectResponsable = document.getElementById('responsable_cambio');
             if (selectResponsable) {
-                const defaultUsers = [
-                    { id: 1, nombre: 'Miguel Torres', email: 'miguel.torres@automotive.com', departamento: 'Producción - Línea A', rol: 'Trabajador' },
-                    { id: 2, nombre: 'Roberto Sánchez', email: 'roberto.sanchez@automotive.com', departamento: 'Almacén', rol: 'Trabajador' },
-                    { id: 3, nombre: 'Laura Gómez', email: 'laura.gomez@automotive.com', departamento: 'Calidad', rol: 'Supervisor' },
-                    { id: 4, nombre: 'José Ramírez', email: 'jose.ramirez@automotive.com', departamento: 'Logística', rol: 'Trabajador' },
-                    { id: 5, nombre: 'Carlos Vargas', email: 'carlos.vargas@automotive.com', departamento: 'Mantenimiento', rol: 'Trabajador' },
-                    { id: 6, nombre: 'Ana Rodríguez', email: 'ana.rodriguez@automotive.com', departamento: 'Sistemas', rol: 'Admin' },
-                    { id: 7, nombre: 'Luis Pérez', email: 'luis.perez@automotive.com', departamento: 'Ingeniería', rol: 'Trabajador' }
-                ];
-                let storedUsers = localStorage.getItem('sigaf_users');
-                const users = storedUsers ? JSON.parse(storedUsers) : defaultUsers;
-                // Initialize localStorage if empty
-                if (!storedUsers) {
-                    localStorage.setItem('sigaf_users', JSON.stringify(defaultUsers));
-                }
+                const users = await apiFetch('/usuarios');
                 users.forEach(user => {
                     const opt = document.createElement('option');
-                    opt.value = user.nombre;
-                    opt.textContent = user.nombre;
+                    opt.value = user.id;
+                    opt.textContent = user.name;
                     selectResponsable.appendChild(opt);
                 });
             }
+        } catch (e) {
+            console.warn('Could not load users for select dropdown');
+        }
 
-            // Load Solicitudes
-            let storedSolicitudes = localStorage.getItem('sigaf_solicitudes');
-            if (storedSolicitudes) {
-                solicitudesData = JSON.parse(storedSolicitudes);
-            } else {
-                solicitudesData = [
-                    {
-                        id: 1,
-                        activo: 'Torquímetro Digital SNAP-ON',
-                        estado: 'Pendiente', estadoClass: 'badge-pending',
-                        urgencia: 'Media', urgenciaClass: 'badge-medium',
-                        solicitado_por: 'Miguel Torres',
-                        fecha_solicitud: '18 feb 2026, 10:30',
-                        fecha_programada: '21 feb 2026, 08:00',
-                        realizara_cambio: 'Roberto Sánchez',
-                        ubicacion_actual: 'Planta Principal - Área de Ensamble',
-                        nueva_ubicacion: 'Planta Principal - Línea de Producción B',
-                        motivo: 'Requerido para nuevo proyecto de ensamble en Línea B',
-                        progress: 1
-                    },
-                    {
-                        id: 2,
-                        activo: 'Escáner 3D FARO',
-                        estado: 'Aprobada', estadoClass: 'badge-approved',
-                        urgencia: 'Alta', urgenciaClass: 'badge-high',
-                        solicitado_por: 'Laura Gómez',
-                        fecha_solicitud: '17 feb 2026, 14:15',
-                        fecha_programada: '20 feb 2026, 09:00',
-                        realizara_cambio: 'José Ramírez',
-                        ubicacion_actual: 'Laboratorio de Calidad',
-                        nueva_ubicacion: 'Planta - Área de Ingeniería',
-                        motivo: 'Medición de prototipos de nueva línea de productos',
-                        progress: 2
-                    }
-                ];
-                localStorage.setItem('sigaf_solicitudes', JSON.stringify(solicitudesData));
-            }
+        // Fetch Solicitudes
+        try {
+            const reqs = await apiFetch('/solicitudes');
+            solicitudesData = reqs.map(s => ({
+                id: s.id,
+                activo: s.activo ? s.activo.nombre : s.activo_id,
+                estado: s.estado,
+                estadoClass: s.estado === 'Aprobada' || s.estado === 'Aceptada' ? 'badge-approved' : (s.estado === 'Pendiente' || s.estado === 'Enviada' ? 'badge-pending' : 'badge-low'),
+                urgencia: s.urgencia,
+                urgenciaClass: s.urgencia === 'Alta' ? 'badge-high' : 'badge-medium',
+                solicitado_por: s.user_id,
+                fecha_solicitud: s.fecha,
+                fecha_programada: s.fecha,
+                realizara_cambio: s.revisada_por || 'N/A',
+                ubicacion_actual: 'N/A',
+                nueva_ubicacion: s.ubicacion_destino,
+                motivo: s.motivo,
+                progress: s.estado === 'Aprobada' || s.estado === 'Aceptada' ? 2 : 1
+            }));
             
             renderSolicitudes('all');
         } catch (error) {
             console.error(error);
+            if (typeof ui !== 'undefined') ui.showToast('Error cargando solicitudes', 'error');
         }
     }
 

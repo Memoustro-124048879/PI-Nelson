@@ -1,6 +1,10 @@
 // public/js/login.js
 document.addEventListener('DOMContentLoaded', () => {
-    // Si entra a login, limpiamos localStorage por seguridad
+    if (typeof auth !== 'undefined' && auth.isLoggedIn()) {
+        window.location.href = 'dashboard.html';
+        return;
+    }
+
     localStorage.removeItem('token');
     localStorage.removeItem('user_name');
     localStorage.removeItem('user_role');
@@ -13,24 +17,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const usernameInput = document.getElementById('username').value;
         const passwordInput = document.getElementById('password').value;
         
-        // MOCK LOGIN LOGIC
-        let role = '';
-        let name = '';
+        try {
+            const btn = loginForm.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Cargando...';
+            btn.disabled = true;
 
-        if(passwordInput === 'demo123') {
-            if(usernameInput === 'Admin@sigaf.com') { role = 'Administrador'; name = 'Admin SIGAF'; }
-            else if(usernameInput === 'Supervisor@sigaf.com') { role = 'Supervisor'; name = 'Supervisor SIGAF'; }
-            else if(usernameInput === 'Trabajador@sigaf.com') { role = 'Trabajador'; name = 'Trabajador SIGAF'; }
-        }
+            await login(usernameInput, passwordInput);
+        } catch (error) {
+            console.error('Login error:', error);
+            const btn = loginForm.querySelector('button[type="submit"]');
+            btn.innerHTML = 'Ingresar';
+            btn.disabled = false;
 
-        if (role) {
-            localStorage.setItem('token', 'mock_token_' + Math.random().toString(36).substr(2));
-            localStorage.setItem('user_name', name);
-            localStorage.setItem('user_role', role);
-            localStorage.setItem('user_email', usernameInput);
-            window.location.href = 'dashboard.html';
-        } else {
-            alert('Credenciales incorrectas. Verifique usuario y contraseña.');
+            if (error.status === 401 || error.status === 403) {
+                alert('Credenciales incorrectas. Verifique usuario y contraseña.');
+            } else if (error.status >= 500) {
+                alert('🚨 ERROR INTERNO 500: ¡Tu servidor local (XAMPP/PHP) está colapsando! \n\nNo es un error de código, el controlador de base de datos MySQL/SQLite está DAÑADO en tu computadora. \n\nPor favor, actualiza tu versión de XAMPP para solucionar los DLLs rotos y vuelve a intentar.');
+            } else {
+                alert('Fallo de red o servidor apagado. Asegúrate de ejecutar: php artisan serve');
+            }
         }
     });
 

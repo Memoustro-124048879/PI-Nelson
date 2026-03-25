@@ -146,13 +146,7 @@
                 <button type="button" class="modal-close" id="btn-close-camera">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="camera-viewfinder">
-                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80" alt="Camera view">
-                    <div class="camera-overlay">
-                        <div class="corner-br"></div>
-                        <div class="corner-bl"></div>
-                    </div>
-                </div>
+                <div id="qr-reader" style="width: 100%;"></div>
                 <div class="modal-body-text">
                     <strong>Apunte la cámara hacia el código QR del activo</strong>
                     El escaneo es automático cuando el código es detectado
@@ -160,11 +154,13 @@
             </div>
             <div class="modal-footer" style="justify-content: center; gap: 1rem;">
                 <button type="button" class="btn-secondary" id="btn-cancel-camera" style="flex:1;">Cancelar</button>
-                <button type="button" class="btn-primary" id="btn-start-scan" style="flex:1; justify-content:center;">Iniciar Escaneo</button>
             </div>
         </div>
     </div>
 
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/escanear.js"></script>
 </body>
 </html>

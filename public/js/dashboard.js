@@ -1,18 +1,9 @@
 // public/js/dashboard.js
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Auth Check (Mock check for token)
-    const token = localStorage.getItem('token') || 'mock_token'; 
-    /* 
-    if (!localStorage.getItem('token')) {
+    if (typeof auth !== 'undefined' && !auth.isLoggedIn()) {
         window.location.href = 'login.html';
         return;
     }
-    */
-
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-    };
 
     // 2. Set Profile Data
     const userName = localStorage.getItem('user_name') || 'Usuario';
@@ -150,9 +141,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Logout Logic
-    document.getElementById('btn-logout').addEventListener('click', (e) => {
-        e.preventDefault();
-        localStorage.clear();
-        window.location.href = 'login.html';
-    });
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout) {
+        btnLogout.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (typeof logout !== 'undefined') {
+                logout();
+            } else {
+                localStorage.clear();
+                window.location.href = 'login.html';
+            }
+        });
+    }
 });
