@@ -40,10 +40,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Form Submission Logic ---
-    const newReportForm = document.getElementById('newReportForm');
-    
-    // Prefill date input dynamically with today's date
+    // 4. Load activos into the select dropdown
+    const activoSelect = document.getElementById('activo_id');
+    if (activoSelect) {
+        apiFetch('/activos').then(activos => {
+            activos.forEach(a => {
+                const opt = document.createElement('option');
+                opt.value = a.id;
+                opt.textContent = `${a.qr_code || a.id} - ${a.nombre}`;
+                activoSelect.appendChild(opt);
+            });
+        }).catch(err => {
+            console.warn('No se pudieron cargar los activos:', err);
+        });
+    }
+
+    // 5. Prefill date input dynamically with today's date
     const dateInput = document.querySelector('input[name="fecha"]');
     if (dateInput) {
         const today = new Date();
@@ -61,40 +73,53 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // 6. Form Submission — save to API
+    const newReportForm = document.getElementById('newReportForm');
     if (newReportForm) {
-        newReportForm.addEventListener('submit', (e) => {
+        newReportForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(newReportForm);
-            
-            // Read existing 
-            let reportesData = [];
-            let stored = localStorage.getItem('sigaf_reportes');
-            if (stored) {
-                reportesData = JSON.parse(stored);
-            }
 
-            const newReport = {
-                id: Date.now(),
+            const payload = {
                 titulo: formData.get('titulo'),
-                categoria: formData.get('categoria'),
-                fecha: formData.get('fecha'),
-                descripcion: formData.get('descripcion'),
-                responsable: formData.get('responsable') || userName,
-                ubicacion: formData.get('ubicacion') || 'General',
-                costo: formData.get('costo'),
-                notas: formData.get('notas'),
-                estado: 'Enviado',
-                urgencia: 'Normal'
+                tipo: formData.get('tipo') || formData.get('categoria'),
+                activo_id: formData.get('activo_id'),
+                ubicacion_evento: formData.get('ubicacion_evento') || formData.get('ubicacion') || 'General',
+                notas: formData.get('notas') || formData.get('descripcion') || '',
+                subtipo: formData.get('subtipo') || null,
+                gravedad: formData.get('gravedad') || null,
             };
 
-            // Add at top since it's most recent
-            reportesData.unshift(newReport);
-            localStorage.setItem('sigaf_reportes', JSON.stringify(reportesData));
-            
-            showToast('Reporte generado exitosamente', 'success');
-            setTimeout(() => {
-                window.location.href = 'reportes.html';
-            }, 800);
+            if (!payload.activo_id) {
+                showToast('Debe seleccionar un activo', 'error');
+                return;
+            }
+
+            const submitBtn = newReportForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn ? submitBtn.innerHTML : 'Crear Reporte';
+            if (submitBtn) {
+                submitBtn.innerHTML = 'Guardando...';
+                submitBtn.disabled = true;
+            }
+
+            try {
+                await apiFetch('/reportes', {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                showToast('Reporte creado exitosamente', 'success');
+                setTimeout(() => {
+                    window.location.href = 'reportes.html';
+                }, 800);
+            } catch (err) {
+                console.error('Error creando reporte:', err);
+                showToast('Error al crear el reporte: ' + (err.message || 'Error desconocido'), 'error');
+            } finally {
+                if (submitBtn) {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            }
         });
     }
 });

@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Set Profile
     const userName = localStorage.getItem('user_name') || 'Usuario';
     const userRole = localStorage.getItem('user_role') || 'Invitado';
+    const userRoleUpper = userRole.toUpperCase();
 
     // UI elements
     const sidebarName = document.getElementById('sidebar-name');
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarAvatar) sidebarAvatar.textContent = userName.split(' ').map(n => n[0]).join('').toUpperCase();
 
     // 3. Role-Based Sidebar Navigation
-    updateNavigation(userRole);
+    updateNavigation(userRoleUpper);
 
     function updateNavigation(role) {
         const navMenu = document.querySelector('.nav-menu');
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const link = item.querySelector('a');
             const text = link.textContent.trim();
 
-            if (role === 'Trabajador') {
+            if (role === 'TRABAJADOR') {
                 const allowed = ['Dashboard', 'Solicitudes'];
                 if (!allowed.includes(text)) item.style.display = 'none';
             } else {
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // QR Button logic
         if (btnScan) {
-            if (role === 'Trabajador') {
+            if (role === 'TRABAJADOR') {
                 btnScan.style.display = 'flex';
             } else {
                 btnScan.style.display = 'none';
@@ -124,10 +125,11 @@ document.addEventListener('DOMContentLoaded', () => {
             filtered = filtered.filter(a => a.estado === filter);
         }
         if (search) {
+            const q = search.toLowerCase();
             filtered = filtered.filter(a => 
-                a.nombre.toLowerCase().includes(search.toLowerCase()) || 
-                a.serie.toLowerCase().includes(search.toLowerCase()) || 
-                a.id.toLowerCase().includes(search.toLowerCase())
+                (a.nombre || '').toLowerCase().includes(q) || 
+                (a.numero_serie || a.serie || '').toLowerCase().includes(q) || 
+                (a.qr_code || String(a.id) || '').toLowerCase().includes(q)
             );
         }
 

@@ -1,22 +1,15 @@
 // public/js/solicitudes.js
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Auth Check (Mock check for token)
-    const token = localStorage.getItem('token') || 'mock_token'; 
-    /* 
-    if (!localStorage.getItem('token')) {
+    // 1. Auth Check
+    if (!auth.isLoggedIn()) {
         window.location.href = 'login.html';
         return;
     }
-    */
-
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-    };
 
     // 2. Set Profile
     const userName = localStorage.getItem('user_name') || 'Usuario';
     const userRole = localStorage.getItem('user_role') || 'Invitado';
+    const userRoleUpper = userRole.toUpperCase();
 
     // UI elements
     const sidebarName = document.getElementById('sidebar-name');
@@ -28,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarAvatar) sidebarAvatar.textContent = userName.split(' ').map(n => n[0]).join('').toUpperCase();
 
     // 3. Role-Based Sidebar Navigation
-    updateNavigation(userRole);
+    updateNavigation(userRoleUpper);
 
     function updateNavigation(role) {
         const navMenu = document.querySelector('.nav-menu');
@@ -40,18 +33,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const link = item.querySelector('a');
             const text = link.textContent.trim();
 
-            if (role === 'Trabajador') {
+            if (role === 'TRABAJADOR') {
                 const allowed = ['Dashboard', 'Solicitudes'];
                 if (!allowed.includes(text)) item.style.display = 'none';
             } else {
-                // Admin / Supervisor
                 if (text === 'Escanear QR') item.style.display = 'none';
             }
         });
 
         // QR Button logic
         if (btnScan) {
-            if (role === 'Trabajador') {
+            if (role === 'TRABAJADOR') {
                 btnScan.style.display = 'flex';
             } else {
                 btnScan.style.display = 'none';
@@ -226,8 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Filter by Search Query
         if (searchQuery) {
             filtered = filtered.filter(s => 
-                s.activo.toLowerCase().includes(searchQuery) || 
-                s.solicitado_por.toLowerCase().includes(searchQuery)
+                (s.activo || '').toLowerCase().includes(searchQuery) || 
+                String(s.solicitado_por || '').toLowerCase().includes(searchQuery)
             );
         }
 

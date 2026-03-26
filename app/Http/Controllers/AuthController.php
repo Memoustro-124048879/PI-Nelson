@@ -11,16 +11,22 @@ class AuthController extends Controller
 {
     public function login(Request $request) {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required',
             'password' => 'required'
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)
+                    ->orWhere('name', $request->email)
+                    ->first();
 
         // SHA-256 specific requested validation, falling back to plaintext for debugging seeding
+        // But also support Laravel's standard Bcrypt used in seeders
         $hashedInput = hash('sha256', $request->password);
+        $isCorrect = Hash::check($request->password, $user->password) || 
+                     $user->password === $hashedInput || 
+                     $user->password === $request->password;
         
-        if (!$user || ($user->password !== $hashedInput && $user->password !== $request->password)) {
+        if (!$user || !$isCorrect) {
             return response()->json(['message' => 'Credenciales inválidas'], 401);
         }
 

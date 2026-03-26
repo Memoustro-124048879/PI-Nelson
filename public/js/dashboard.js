@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Set Profile Data
     const userName = localStorage.getItem('user_name') || 'Usuario';
     const userRole = localStorage.getItem('user_role') || 'Invitado';
-    const userEmail = localStorage.getItem('user_email') || '';
+    const userRoleUpper = userRole.toUpperCase();
 
     // Fix "Cargando" bug immediately
     const sidebarName = document.getElementById('sidebar-name');
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarAvatar) sidebarAvatar.textContent = userName.split(' ').map(n => n[0]).join('').toUpperCase();
 
     // 3. Role-Based Sidebar Navigation
-    updateNavigation(userRole);
+    updateNavigation(userRoleUpper);
 
     function updateNavigation(role) {
         const navMenu = document.querySelector('.nav-menu');
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const link = item.querySelector('a');
             const text = link.textContent.trim();
 
-            if (role === 'Trabajador') {
+            if (role === 'TRABAJADOR') {
                 const allowed = ['Dashboard', 'Solicitudes'];
                 if (!allowed.includes(text)) item.style.display = 'none';
             } else {
@@ -45,19 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Dashboard sections visibility
-        if (role === 'Trabajador' && workerSection) {
+        if (role === 'TRABAJADOR' && workerSection) {
             workerSection.style.display = 'block';
             renderWorkerChart('day');
         }
-
-        // QR Button logic
-        if (btnScan) {
-            if (role === 'Trabajador') {
-                btnScan.style.display = 'flex';
-            } else {
-                btnScan.style.display = 'none';
-            }
-        }
+        if (btnScan) btnScan.style.display = role === 'TRABAJADOR' ? 'flex' : 'none';
     }
 
     // Chart logic for Workers
@@ -96,23 +88,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadDashboardData() {
         try {
-            // MOCKED DATA matching Figma designs
+            // Fetch real data from API
+            const [activos, solicitudes] = await Promise.all([
+                apiFetch('/activos').catch(() => []),
+                apiFetch('/solicitudes').catch(() => [])
+            ]);
+
+            const totalActivos = activos.length;
+            const enUso = activos.filter(a => a.estado === 'En Uso' || a.estado === 'Uso').length;
+            const enMant = activos.filter(a => a.estado === 'Mantenimiento').length;
+            const pendientes = solicitudes.filter(s => s.estado === 'Enviada' || s.estado === 'Pendiente').length;
+
             const data = {
                 stats: [
-                    { id: 'stat-total', title: 'Total Activos', value: 342, desc: '+12 este mes', icon: 'blue', positive: true },
-                    { id: 'stat-en-uso', title: 'Activos en Uso', value: 156, desc: '45% del total', icon: 'green', positive: false },
-                    { id: 'stat-mantenimiento', title: 'En Mantenimiento', value: 12, desc: '3 críticos', icon: 'orange', positive: false, warning: true },
-                    { id: 'stat-pendientes', title: 'Solicitudes Pendientes', value: 8, desc: 'Requieren aprobación', icon: 'yellow', warning: true }
-                ],
-                movimientos: [
-                    { activo: 'Torquímetro Digital SNAP-ON', origen: 'Almacén Central', destino: 'Planta Principal - Área de Ensamble', fecha: '15/1/2026' },
-                    { activo: 'Montacargas Eléctrico YALE', origen: 'Almacén - Zona de Mantenimiento', destino: 'Almacén - Zona de Carga', fecha: '1/2/2026' },
-                    { activo: 'Escáner 3D FARO', origen: 'Planta - Área de Ingeniería', destino: 'Laboratorio de Calidad', fecha: '10/12/2025' }
-                ],
-                solicitudes: [
-                    { activo: 'Torquímetro Digital SNAP-ON', solicitante: 'Miguel Torres', estado: 'Pendiente', badgeClass: 'badge-pending', fecha: '18/2/2026' },
-                    { activo: 'Escáner 3D FARO', solicitante: 'Laura Gómez', estado: 'Aprobada', badgeClass: 'badge-approved', fecha: '17/2/2026' },
-                    { activo: 'Montacargas Eléctrico YALE', solicitante: 'Fernando Castro', estado: 'Completada', badgeClass: 'badge-completed', fecha: '16/2/2026' }
+                    { title: 'Total Activos', value: totalActivos, desc: 'Registrados en sistema', icon: 'blue', positive: true },
+                    { title: 'Activos en Uso', value: enUso, desc: `${totalActivos ? Math.round(enUso/totalActivos*100) : 0}% del total`, icon: 'green', positive: false },
+                    { title: 'En Mantenimiento', value: enMant, desc: enMant > 0 ? `${enMant} críticos` : 'Ninguno', icon: 'orange', positive: false, warning: enMant > 0 },
+                    { title: 'Solicitudes Pendientes', value: pendientes, desc: pendientes > 0 ? 'Requieren aprobación' : 'Al día', icon: 'yellow', warning: pendientes > 0 }
                 ]
             };
 
@@ -134,9 +126,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `).join('');
             }
+
+            // Render recent solicitudes in the dashboard panel
+            const requestsList = document.getElementById('requests-list');
+            if (requestsList) {
+                const recent = solicitudes.slice(0, 5);
+                if (recent.length === 0) {
+                    requestsList.innerHTML = '<p style="color: var(--text-muted); padding: 1rem 0; font-size: 0.9rem;">No hay solicitudes recientes.</p>';
+                } else {
+                    requestsList.innerHTML = recent.map(s => {
+                        const badgeClass = s.estado === 'Aceptada' || s.estado === 'Aprobada' ? 'badge-approved'
+                            : (s.estado === 'Enviada' || s.estado === 'Pendiente' ? 'badge-pending' : 'badge-low');
+                        const activoNombre = s.activo ? s.activo.nombre : `Activo #${s.activo_id}`;
+                        return `
+                            <div class="list-item">
+                                <div class="item-details" style="flex:1;">
+                                    <h4 style="font-size:0.9rem; margin:0;">${activoNombre}</h4>
+                                    <p style="font-size:0.75rem; color:var(--text-muted);">${s.fecha || ''} · <span class="badge ${badgeClass}" style="font-size:0.7rem; padding:0.15rem 0.5rem;">${s.estado}</span></p>
+                                </div>
+                            </div>`;
+                    }).join('');
+                }
+            }
         } catch (error) {
             console.error('Error loading dashboard data:', error);
-            // Optionally display an error message to the user
         }
     }
 

@@ -112,10 +112,10 @@
                     
                     <div class="row-2" style="margin-top: 1.5rem;">
                         <div class="form-group">
-                            <label>Categoría <span>*</span></label>
+                            <label>Tipo de Reporte <span>*</span></label>
                             <div class="input-container">
-                                <select name="categoria" required>
-                                    <option value="">Seleccione una categoría</option>
+                                <select name="tipo" required>
+                                    <option value="">Seleccione un tipo</option>
                                     <option value="Solicitudes">Solicitudes</option>
                                     <option value="Mantenimiento">Mantenimiento</option>
                                     <option value="Movimientos">Movimientos</option>
@@ -131,44 +131,31 @@
                     </div>
 
                     <div class="form-group" style="margin-top: 1.5rem;">
-                        <label>Descripción <span>*</span></label>
+                        <label>Activo Relacionado <span>*</span></label>
                         <div class="input-container">
-                            <textarea name="descripcion" placeholder="Describa detalladamente el contenido del reporte..." style="height: 100px; font-family: inherit; resize: none; padding: 1rem; width: 100%; border: none; outline: none; border-radius: 8px; font-size: 0.95rem; color: var(--text-dark);" required></textarea>
+                            <select id="activo_id" name="activo_id" required>
+                                <option value="">Seleccione un activo</option>
+                                <!-- Opciones cargadas dinámicamente -->
+                            </select>
                         </div>
                     </div>
                 </section>
 
                 <section class="form-section" style="border: none; padding: 0; margin-bottom: 0;">
                     <h3 style="margin-bottom: 1.5rem;">Detalles Adicionales</h3>
-                    <div class="row-2">
                         <div class="form-group">
-                            <label>Reportado Por / Adquirido Por</label>
+                            <label>Descripción / Notas <span>*</span></label>
                             <div class="input-container">
-                                <input type="text" name="responsable" placeholder="Nombre del responsable">
+                                <textarea name="notas" placeholder="Describa el contenido del reporte..." style="height: 100px; font-family: inherit; resize: none; padding: 1rem; width: 100%; border: none; outline: none; border-radius: 8px; font-size: 0.95rem; color: var(--text-dark);" required></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Ubicación</label>
+                            <label>Ubicación del Evento</label>
                             <div class="input-container">
-                                <input type="text" name="ubicacion" placeholder="Ej: Planta Principal - Área de Pr">
+                                <input type="text" name="ubicacion_evento" placeholder="Ej: Planta Principal - Área de Producción">
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row-2" style="margin-top: 1.5rem;">
-                        <div class="form-group">
-                            <label>Costo Asociado (MXN)</label>
-                            <div class="input-container">
-                                <input type="number" name="costo" placeholder="0.00">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Notas Adicionales</label>
-                            <div class="input-container">
-                                <input type="text" name="notas" placeholder="Información complementaria">
-                            </div>
-                        </div>
-                    </div>
                 </section>
 
                 <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">

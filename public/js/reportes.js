@@ -20,8 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sidebarRole) sidebarRole.textContent = userRole;
     if (sidebarAvatar) sidebarAvatar.textContent = userName.split(' ').map(n => n[0]).join('').toUpperCase();
 
+    const userRoleUpper = userRole.toUpperCase();
+
     // 3. Role-Based Sidebar Navigation
-    updateNavigation(userRole);
+    updateNavigation(userRoleUpper);
 
     function updateNavigation(role) {
         const navMenu = document.querySelector('.nav-menu');
@@ -33,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const link = item.querySelector('a');
             const text = link.textContent.trim();
 
-            if (role === 'Trabajador') {
+            if (role === 'TRABAJADOR') {
                 const allowed = ['Dashboard', 'Solicitudes'];
                 if (!allowed.includes(text)) item.style.display = 'none';
             } else {
@@ -44,11 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // QR Button logic
         if (btnScan) {
-            if (role === 'Trabajador') {
-                btnScan.style.display = 'flex';
-            } else {
-                btnScan.style.display = 'none';
-            }
+            btnScan.style.display = role === 'TRABAJADOR' ? 'flex' : 'none';
         }
     }
 

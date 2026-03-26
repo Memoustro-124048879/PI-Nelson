@@ -81,43 +81,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadAssetForEdit(id) {
         try {
-            const storedAssets = localStorage.getItem('sigaf_assets');
-            if (storedAssets) {
-                const assets = JSON.parse(storedAssets);
-                const asset = assets.find(a => a.id === id);
-                if (asset) {
-                    // Fill form fields
-                    const fields = {
-                        nombre: asset.nombre,
-                        codigo: asset.id,
-                        numero_serie: asset.serie,
-                        modelo: asset.modelo,
-                        marca: asset.marca || '',
-                        fecha_adquisicion: asset.fecha_adquisicion || '',
-                        costo: asset.costo || '',
-                        proveedor: asset.proveedor || '',
-                        vida_util: asset.vida_util || '',
-                        ubicacion: asset.ubicacion,
-                        departamento: asset.departamento,
-                        estado: asset.estado,
-                        observaciones: asset.observaciones || ''
-                    };
+            const asset = await apiFetch(`/activos/${id}`);
+            if (!asset) return;
 
-                    // Map categories back to ID if needed
-                    const catMap = { 'Herramientas': '1', 'Maquinaria': '2', 'Vehículos': '3', 'Equipos': '4', 'Mobiliario': '5' };
-                    if (asset.categoria) {
-                        const catId = catMap[asset.categoria];
-                        if (catId) assetForm.querySelector('[name="categoria_id"]').value = catId;
-                    }
+            const fieldMap = {
+                nombre: asset.nombre,
+                numero_serie: asset.numero_serie || asset.serie,
+                modelo: asset.modelo,
+                marca: asset.marca || '',
+                fecha_adquisicion: asset.fecha_adquisicion || '',
+                costo: asset.costo_adquisicion || asset.costo || '',
+                proveedor: asset.proveedor || '',
+                vida_util: asset.vida_util || '',
+                ubicacion: asset.area ? asset.area.nombre : '',
+                estado: asset.estado,
+                observaciones: asset.observaciones || ''
+            };
 
-                    Object.keys(fields).forEach(key => {
-                        const el = assetForm.querySelector(`[name="${key}"]`);
-                        if (el) el.value = fields[key];
-                    });
-                }
-            }
+            // Set categoria_id select
+            const catSelect = assetForm.querySelector('[name="categoria_id"]');
+            if (catSelect && asset.categoria_id) catSelect.value = asset.categoria_id;
+
+            Object.keys(fieldMap).forEach(key => {
+                const el = assetForm.querySelector(`[name="${key}"]`);
+                if (el && fieldMap[key] != null) el.value = fieldMap[key];
+            });
         } catch (err) {
-            console.error('Error loading asset:', err);
+            console.error('Error loading asset for edit:', err);
         }
     }
 });

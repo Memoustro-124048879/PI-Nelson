@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (error.status === 401 || error.status === 403) {
                 alert('Credenciales incorrectas. Verifique usuario y contraseña.');
+            } else if (error.status === 422) {
+                alert('Revisa los datos ingresados. Debes proporcionar un usuario/correo y contraseña válida.');
             } else if (error.status >= 500) {
                 alert('🚨 ERROR INTERNO 500: ¡Tu servidor local (XAMPP/PHP) está colapsando! \n\nNo es un error de código, el controlador de base de datos MySQL/SQLite está DAÑADO en tu computadora. \n\nPor favor, actualiza tu versión de XAMPP para solucionar los DLLs rotos y vuelve a intentar.');
             } else {

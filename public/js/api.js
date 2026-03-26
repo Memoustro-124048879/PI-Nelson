@@ -36,22 +36,31 @@ async function apiFetch(endpoint, options = {}) {
     try {
         const response = await fetch(`${BASE_URL}${endpoint}`, config);
         
+        let data;
+        try {
+            data = await response.json();
+        } catch (e) {
+            data = { message: 'Invalid JSON response from backend' };
+        }
+        
         if (response.status === 401) {
-            // Unauthorized - clear token and redirect to login if not already there
             localStorage.removeItem('access_token');
             if (!window.location.pathname.endsWith('login.html') && window.location.pathname !== '/') {
                 window.location.href = 'login.html';
             }
         }
 
-        const data = await response.json();
-        
         if (!response.ok) {
             throw { status: response.status, data };
         }
 
         return data;
     } catch (error) {
+        // Only fallback on Network errors or 500+ Internal Errors
+        if (error.status && error.status < 500) {
+            throw error;
+        }
+        
         console.warn('⚡ CRITICAL: Backend server (PHP/XAMPP) failed to respond properly. Activating LocalStorage Mock Fallback...', error);
         return handleMockFallback(endpoint, config);
     }

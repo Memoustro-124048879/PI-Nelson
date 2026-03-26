@@ -10,7 +10,7 @@ class RequestController extends Controller
 {
     public function index(Request $request) {
         $user = $request->user();
-        $query = Solicitud::query();
+        $query = Solicitud::with('activo');
 
         if ($user && $user->role === 'TRABAJADOR') {
             $query->where('user_id', $user->id);

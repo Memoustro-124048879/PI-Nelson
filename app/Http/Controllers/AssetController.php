@@ -24,6 +24,8 @@ class AssetController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string',
             'categoria_id' => 'nullable|integer',
+            'area_id' => 'nullable|integer',
+            'qr_code' => 'nullable|string',
             'numero_serie' => 'nullable|string',
             'marca' => 'nullable|string',
             'modelo' => 'nullable|string',
@@ -38,16 +40,24 @@ class AssetController extends Controller
         $activo = new Activo($validated);
         // Map frontend fields
         if ($request->has('costo')) $activo->costo_adquisicion = $request->costo;
-        if ($request->has('ubicacion')) $activo->area_id = intval($request->ubicacion) ?: null;
+        if ($request->has('area_id')) $activo->area_id = $request->area_id;
 
-        $activo->qr_code = 'SIGAF-' . strtoupper(Str::random(8));
+        if ($request->has('ubicacion') && $request->ubicacion) {
+            $area = \App\Models\Area::firstOrCreate(['nombre' => $request->ubicacion]);
+            $activo->area_id = $area->id;
+        }
+
+        if (!$activo->qr_code) {
+            $activo->qr_code = 'SIGAF-' . strtoupper(Str::random(8));
+        }
+
         $activo->save();
 
         return response()->json($activo, 201);
     }
 
     public function show($id) {
-        $activo = Activo::findOrFail($id);
+        $activo = Activo::with('area')->findOrFail($id);
         return response()->json($activo);
     }
 
@@ -56,7 +66,10 @@ class AssetController extends Controller
         
         $activo->fill($request->all());
         if ($request->has('costo')) $activo->costo_adquisicion = $request->costo;
-        if ($request->has('ubicacion')) $activo->area_id = intval($request->ubicacion) ?: null;
+        if ($request->has('ubicacion') && $request->ubicacion) {
+            $area = \App\Models\Area::firstOrCreate(['nombre' => $request->ubicacion]);
+            $activo->area_id = $area->id;
+        }
 
         $activo->save();
         return response()->json($activo);
