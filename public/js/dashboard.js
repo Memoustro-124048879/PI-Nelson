@@ -37,10 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (role === 'TRABAJADOR') {
                 const allowed = ['Dashboard', 'Solicitudes'];
-                if (!allowed.includes(text)) item.style.display = 'none';
+                if (!allowed.includes(text)) {
+                    item.remove();
+                }
             } else {
                 // Admin / Supervisor
-                if (text === 'Escanear QR') item.style.display = 'none';
+                if (text === 'Escanear QR') {
+                    item.remove();
+                }
             }
         });
 

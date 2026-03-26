@@ -19,6 +19,10 @@ class AuthController extends Controller
                     ->orWhere('name', $request->email)
                     ->first();
 
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado'], 401);
+        }
+
         // SHA-256 specific requested validation, falling back to plaintext for debugging seeding
         // But also support Laravel's standard Bcrypt used in seeders
         $hashedInput = hash('sha256', $request->password);
@@ -26,8 +30,8 @@ class AuthController extends Controller
                      $user->password === $hashedInput || 
                      $user->password === $request->password;
         
-        if (!$user || !$isCorrect) {
-            return response()->json(['message' => 'Credenciales inválidas'], 401);
+        if (!$isCorrect) {
+            return response()->json(['message' => 'Contraseña incorrecta'], 401);
         }
 
         if ($user->estado === 'inactivo') {

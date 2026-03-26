@@ -99,19 +99,19 @@ class DummySeeder extends Seeder
         ]);
 
         // --- Usuarios ---
-        $admin = User::firstOrCreate(
+        $admin = User::updateOrCreate(
             ['email' => 'admin@sigaf.com'],
-            ['name' => 'Admin SIGAF', 'role' => 'ADMIN', 'password' => bcrypt('password')]
+            ['name' => 'Admin SIGAF', 'role' => 'ADMIN', 'password' => bcrypt('Sigaf2026!')]
         );
 
-        $supervisor = User::firstOrCreate(
+        $supervisor = User::updateOrCreate(
             ['email' => 'supervisor@sigaf.com'],
-            ['name' => 'Carlos Supervisor', 'role' => 'SUPERVISOR', 'area_id' => $areaProduccion->id, 'password' => bcrypt('password')]
+            ['name' => 'Carlos Supervisor', 'role' => 'SUPERVISOR', 'area_id' => $areaProduccion->id, 'password' => bcrypt('Sigaf2026!')]
         );
 
-        $trabajador = User::firstOrCreate(
+        $trabajador = User::updateOrCreate(
             ['email' => 'miguel@sigaf.com'],
-            ['name' => 'Miguel Torres', 'role' => 'TRABAJADOR', 'area_id' => $areaProduccion->id, 'password' => bcrypt('password')]
+            ['name' => 'Miguel Torres', 'role' => 'TRABAJADOR', 'area_id' => $areaProduccion->id, 'password' => bcrypt('Sigaf2026!')]
         );
 
         // --- Solicitudes ---
